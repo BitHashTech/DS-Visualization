@@ -1,0 +1,40 @@
+html {
+	background-color: #38D18F;
+}
+#sideList-deque {
+	width: 350px;
+	height: 420px;
+}
+#sideList-queue {
+	padding: 0px;
+	width: 350px;
+	height: 290px;
+}
+.Circle2 {
+	border: 2px solid black;
+	background-color: red;
+	border-radius:100%;
+	text-align: center;
+	height:50px;
+	width:50px;
+}
+.Circle {
+	border: 2px solid black;
+	background-color: green;
+	border-radius:100%;
+	text-align: center;
+	height:50px;
+	width:50px;
+}
+.LINE 
+{
+	position :relative;
+	width :0px;
+	height :50px;
+}
+.Contain
+{
+	top : 100px;
+	position : relative ;
+	white-space : nowrap ;
+}

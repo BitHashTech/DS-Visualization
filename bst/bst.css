@@ -1,0 +1,40 @@
+html {
+	background-color: #38D18F;
+}
+#sideList {
+	width: 470px;
+	height: 280px;
+}
+.Circle2 {
+	position:absolute;
+	display: block ; 
+	border: 2px solid black;
+	background-color: red;
+	border-radius:100%;
+	text-align: center;
+	height:6%;
+	width:40px;
+}
+.Circle {
+	position :absolute;
+	display: block ; 
+	border: 2px solid black;
+	background-color: green;
+	border-radius:100%;
+	text-align: center;
+	height:6%;
+	width:40px;
+}
+.LINE 
+{
+	position :absolute;
+}
+.Contain
+{
+	position:fixed;
+	overflow:auto;
+	white-space : nowrap ;
+	width : 100% ; 
+	height : 100% ; 
+	position : fixed ;
+}

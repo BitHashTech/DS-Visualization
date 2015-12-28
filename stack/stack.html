@@ -1,0 +1,53 @@
+<!doctype html> 
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css"  href="stack.css">
+<link rel="stylesheet" href="..\external\jquery-ui.min.css">
+<script src="..\external\jquery\jquery.js"></script>
+<script src="..\external\jquery-ui.min.js"></script>
+<script src="stack-normal.js"></script>
+<script src="stack.js"></script>
+
+<title> Stack </title>
+</head>
+<body>
+	<div id = "Nodes" class = "Contain" >
+	</div>
+	<div id='sideList' > <!-- position : fixed ? --> 
+		<h5>Push</h5>
+		<div id="push" >
+			<form>
+				<input id = 'pushTextBox1' placeholder='Number' type='number' name='value' min='-10000' max='10000' style="width:100px">
+				<input type='submit'>
+			</form>
+		</div>
+		<h5>Top</h5>
+		<div id="top">
+			<form>
+				<button style="width:100px"> Top </button>
+			</form>
+		</div>
+		<h5>Pop</h5>
+		<div id="pop">
+			<form>
+				<button style="width:100px"> Pop </button>
+			</form>
+		</div>
+		<h5>Undo</h5>
+		<div id="undo">
+			<form>
+				<button style="width:100px"> Undo </button>
+			</form>
+		</div>
+		<h5>Redo</h5>
+		<div id="redo">
+			<form>
+				<button style="width:100px"> Redo </button>
+			</form>
+		</div>
+	</div>
+	
+
+</body>
+</html>

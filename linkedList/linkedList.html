@@ -1,0 +1,63 @@
+<!doctype html> 
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css"  href="linkedList.css">
+<link rel="stylesheet" href="..\external\jquery-ui.min.css">
+<script src="..\external\jquery\jquery.js"></script>
+<script src="..\external\jquery-ui.min.js"></script>
+<script src="stack.js"></script>
+<script src="linkedList.js"></script>
+
+<title> Linked List </title>
+</head>
+<body>
+	<div id='sideList' > <!-- position : fixed ? --> 
+		<h5>Append</h5>
+		<div id="append">
+			<form>
+				<input id = 'appendTextBox1' placeholder='Number' type='number' name='value' min='-10000' max='10000' style="width:100px">
+				<input type='submit' >
+			</form>
+		</div>
+		<h5>Find</h5>
+		<div id="find">
+			<form>
+				<input id = 'findTextBox1' placeholder='Number' type='number' name='value' min='-10000' max='10000' style="width:100px">
+				<input type='submit'>
+			</form>
+		</div>
+		<h5>Insert</h5>
+		<div id="insert">
+			<form>
+				<input id = 'insertTextBox1' placeholder='Number' type='number' name='value' min='-10000' max='10000' style="width:100px">
+				<input id = 'insertTextBox2' placeholder='0 Position' type='number' name='position' min='0' style="width:100px">
+				<input type='submit'>
+			</form>
+		</div>
+		<h5>Delete</h5>
+		<div id="delete">
+			<form>
+				<input id = 'deleteTextBox1' placeholder='0 Position' type='number' name='position' min='0' style="width:100px">
+				<input type='submit'>
+			</form>
+		</div>
+		<h5>Undo</h5>
+		<div id="undo">
+			<form>
+				<button style="width:100px"> Undo </button>
+			</form>
+		</div>
+		<h5>Redo</h5>
+		<div id="redo">
+			<form>
+				<button style="width:100px"> Redo </button>
+			</form>
+		</div>
+	</div>
+	<div id = "Nodes" class = "Contain" >
+	</div>
+
+
+</body>
+</html>

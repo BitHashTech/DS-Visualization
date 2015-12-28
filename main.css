@@ -1,0 +1,57 @@
+html {
+	background-color: black;
+}
+body, html {
+	height: 90%;
+	width:90%;
+	padding: 0;
+}
+#topBar
+{
+	display:inline-block ;
+	height :40px;
+	width:100%;
+	padding:10px;
+	position:relative;
+}
+a
+{
+    cursor: pointer;
+	display:inline-block;
+	border: 2px solid black;
+	border-radius:20%;
+	color :	#C0C0C0;
+	font-size:20px;
+	margin-right :10px;
+	margin-left : 10px;
+}
+.highLight
+{
+	font-weight: bold;
+	color : #00FFFF;
+}
+#logo
+{
+	margin-right : 100px;
+	color : red;
+}
+#back
+{
+	background-color: #38D18F;
+}
+.hiddenPage
+{
+	display: none ; 
+	left : 1%;
+	width: 98% ; 
+	height: 85%;
+	position:fixed;
+}
+.nHiddenPage
+{
+	display: block ; 
+	left : 1%;
+	width: 98% ; 
+	height: 85%;
+	position:fixed;
+}

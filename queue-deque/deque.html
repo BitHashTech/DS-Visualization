@@ -1,0 +1,74 @@
+<!doctype html> 
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css"  href="queue-deque.css">
+<link rel="stylesheet" href="..\external\jquery-ui.min.css">
+<script src="..\external\jquery\jquery.js"></script>
+<script src="..\external\jquery-ui.min.js"></script>
+<script src="stack.js"></script>
+<script src="queue-deque.js"></script>
+<script src="deque.js"></script>
+
+<title> Deque </title>
+</head>
+<body>
+	<div id='sideList-deque' > <!-- position : fixed ? --> 
+		<h5>Push Front</h5>
+		<div id="pushFront">
+			<form>
+				<input id = 'pushFrontTextBox1' placeholder='Number' type='number' name='value' min='-10000' max='10000' style="width:100px">
+				<input type='submit'>
+			</form>
+		</div>
+		<h5>Push Back</h5>
+		<div id="pushBack">
+			<form>
+				<input id = 'pushBackTextBox1' placeholder='Number' type='number' name='value' min='-10000' max='10000' style="width:100px">
+				<input type='submit'>
+			</form>
+		</div>
+		<h5>Front</h5>
+		<div id="front">
+			<form>
+				<button style="width:100px"> Front </button>
+			</form>
+		</div>
+		<h5>Back</h5>
+		<div id="back">
+			<form>
+				<button style="width:100px"> Front </button>
+			</form>
+		</div>
+
+		<h5>Pop Front</h5>
+		<div id="popFront">
+			<form>
+				<button style="width:100px"> Pop </button>
+			</form>
+		</div>
+		<h5>Pop Back</h5>
+		<div id="popBack">
+			<form>
+				<button style="width:100px"> Pop </button>
+			</form>
+		</div>
+		<h5>Undo</h5>
+		<div id="undo">
+			<form>
+				<button style="width:100px"> Undo </button>
+			</form>
+		</div>
+		<h5>Redo</h5>
+		<div id="redo">
+			<form>
+				<button style="width:100px"> Redo </button>
+			</form>
+		</div>
+	</div>
+	<div id = "Nodes" class = "Contain" >
+	</div>
+
+
+</body>
+</html>
