@@ -559,7 +559,10 @@ var redoList = new Stack() ;
 
 function undo()
 {
-	if ( undoList.empty() ) return ; 
+	if ( undoList.empty() ) {
+		running = false ; 
+		return ; 
+	}
 	var order = undoList.top(); 
 	if ( order[0] == 'insert' ) 
 	{	
@@ -604,7 +607,10 @@ function undo()
 }
 function redo() 
 {
-	if ( redoList.empty() ) return ; 
+	if ( redoList.empty() ) {
+		running = false ; 
+		return ; 
+	}
 	var order = redoList.top() ; 
 	 if ( order[0] == 'insert' ) 
 	{
