@@ -13,8 +13,12 @@
 <title> Queue </title>
 </head>
 <body>
+	<div id = "actionBar" title="Action Bar" >
+		<p id = "action"></p>
+	</div>
+
 	<div id='sideList-queue' > <!-- position : fixed ? --> 
-		<h5>Push</h5>
+		<h5>Push Back</h5>
 		<div id="push">
 			<form>
 				<input id = 'pushTextBox1' placeholder='Number' type='number' name='value' min='-10000' max='10000' style="width:100px">
@@ -27,7 +31,7 @@
 				<button style="width:100px"> Front </button>
 			</form>
 		</div>
-		<h5>Pop</h5>
+		<h5>Pop Front</h5>
 		<div id="pop">
 			<form>
 				<button style="width:100px"> Pop </button>
@@ -45,6 +49,11 @@
 				<button style="width:100px"> Redo </button>
 			</form>
 		</div>
+		<h5>Show Action Bar</h5>
+		<div id="showActionBar">
+			<button id="showActionBarButton" style="width:125px;">Show</button>
+		</div>
+
 	</div>
 	<div id = "Nodes" class = "Contain" >
 	</div>

@@ -1,3 +1,7 @@
+var running = false ; 
+var process = '' ; 
+var maxVal = 1000000 ; // make difference between push back and front ( needed ) 
+var maxNumberNodes = 100 ; 
 function Queue()
 {
 	var head = null , tail = null ; 
@@ -5,6 +9,8 @@ function Queue()
 	var ctr = 0 ; // ctr = counter for nodes and lines id  
 	newNode = function( val )
 	{
+		if ( parseInt(val) >= parseInt(maxVal) ) 
+			val = val - maxVal ; 
 		this.next = null ; 
 		this.prev = null ; 
 		this.value = val ; 
@@ -13,6 +19,11 @@ function Queue()
 	}
 	this.push_back = function ( val ) 
 	{
+		if ( size > maxNumberNodes ) 
+		{
+			alert('Max number of nodes is 100') ; 
+			return ; 
+		}
 		var Line = document.createElement("canvas");  
 		Line.className = "LINE";
 		var ctxLine = Line.getContext("2d");
@@ -41,7 +52,11 @@ function Queue()
 		var ctx = node.getContext("2d");
 		ctx.fillStyle = "yellow";
 		ctx.font = "bold 50px Arial";
-		ctx.fillText(parseInt(val,10),130,90);
+		if ( val >= maxVal ) 
+			ctx.fillText(val-maxVal,130,90);
+		else 
+			ctx.fillText(val,130,90);
+			
 		node.id = ctr ; 
 		var divI = document.getElementById("Nodes") ; 
 		//wait till animation(draw line) is done then make the node appear 
@@ -59,11 +74,86 @@ function Queue()
 		setTimeout(
 			function()
 			{
+				if ( parseInt(val) >= parseInt(maxVal) ) 
+					updateActionBox(process + (val - maxVal) + ' is pushed front') ; 
+				else 
+					updateActionBox(process + val + ' is pushed back') ; 	
 				toggleClass(node);
+				running = false ; 
 			}
 			, 1000 
 		)
 		size++;
+	}
+	this.push_front = function ( val ) 
+	{
+		if ( size > maxNumberNodes ) 
+		{
+			alert('Max number of nodes is 100') ; 
+			return ; 
+		}
+		if ( size == 0 ) 
+		{
+			this.push_back(val + maxVal ) ; 
+			return ; 
+		}
+		var Line = document.createElement("canvas");
+		Line.className = "LINE";
+		var ctxLine = Line.getContext("2d");
+		var queueNode = new newNode(val) ; 
+		var lineIdForHead = head.lineId ;
+		queueNode.next = head ;
+		head.prev = queueNode ; 
+		head = queueNode ; 
+		var linePrevHead = document.getElementById(lineIdForHead) ;
+		var ctxLinePrevHead = linePrevHead.getContext("2d");
+		ctxLinePrevHead.beginPath();
+		ctxLinePrevHead.moveTo(0,60);
+		ctxLinePrevHead.lineTo(300,60);
+		ctxLinePrevHead.lineWidth = 5;
+		ctxLinePrevHead.stroke();
+		ctxLinePrevHead.closePath() ; 
+		Line.id = queueNode.lineId ; 	
+		var divI = document.getElementById("Nodes") ; 
+		divI.insertBefore(Line,document.getElementById(queueNode.next.lineId)) ; 
+		document.getElementById(queueNode.lineId).style.width = '25px';
+		document.getElementById(head.next.lineId).style.width = '0px';
+		drawLine(Line.id);
+		var node = document.createElement("canvas") ;
+		node.className = "Circle";
+		var ctx = node.getContext("2d");
+		ctx.fillStyle = "yellow";
+		ctx.font = "bold 50px Arial";
+		ctx.fillText(val,130,90);
+		node.id = head.nodeId ; 
+		setTimeout(
+			function()
+			{
+				node.style.width = '0px' ;
+				node.style.border = '0' ; 
+				divI.insertBefore(node,document.getElementById(queueNode.next.lineId)) ; 
+				drawCircle(node.id) ; 
+			}
+			,300
+		);
+		setTimeout
+		(
+			function() 
+			{
+				drawLine(head.next.lineId) ; 
+			}
+			,700
+		);
+		setTimeout(
+			function()
+			{
+				updateActionBox(process + val + ' is pushed front' ) ; 
+				toggleClass(node);
+				running = false ; 
+			}
+			, 1000
+		);
+		size++;	
 	}
 	this.front = function ()
 	{
@@ -71,14 +161,15 @@ function Queue()
 		{
 			var node = document.getElementById(head.nodeId) ; 
 			toggleClass(node) ; 
-			alert(head.value) ; 
 			setTimeout(
 				function()
 				{
+					updateActionBox(process + head.value + ' is front') ; 
 					toggleClass(node) ;
+					running = false ; 
 				}
 				,
-				300
+				500
 			);
 			return head.value ; 
 		}
@@ -90,14 +181,15 @@ function Queue()
 		{
 			var node = document.getElementById(tail.nodeId) ; 
 			toggleClass(node) ; 
-			alert(tail.value) ; 
 			setTimeout(
 				function()
 				{
+					updateActionBox(process + tail.value + ' is back') ; 
 					toggleClass(node) ;
+					running = false ; 
 				}
 				,
-				300
+				500
 			);
 			return tail.value ; 
 		}	
@@ -177,7 +269,9 @@ function Queue()
 			(
 				function()
 				{	
-					document.getElementById("Nodes").removeChild(node) ; 
+					updateActionBox(process + 'Pop front is done') ; 
+					document.getElementById("Nodes").removeChild(node) ;
+					running = false ; 
 				}
 				,1200
 			)
@@ -188,69 +282,6 @@ function Queue()
 				head.prev = null ; 
 			}
 		}
-	}
-	this.push_front = function ( val ) 
-	{
-		if ( size == 0 ) 
-		{
-			this.push_back(val) ; 
-			return ; 
-		}
-		var Line = document.createElement("canvas");
-		Line.className = "LINE";
-		var ctxLine = Line.getContext("2d");
-		var queueNode = new newNode(val) ; 
-		var lineIdForHead = head.lineId ;
-		queueNode.next = head ;
-		head.prev = queueNode ; 
-		head = queueNode ; 
-		var linePrevHead = document.getElementById(lineIdForHead) ;
-		var ctxLinePrevHead = linePrevHead.getContext("2d");
-		ctxLinePrevHead.beginPath();
-		ctxLinePrevHead.moveTo(0,60);
-		ctxLinePrevHead.lineTo(300,60);
-		ctxLinePrevHead.lineWidth = 5;
-		ctxLinePrevHead.stroke();
-		ctxLinePrevHead.closePath() ; 
-		Line.id = queueNode.lineId ; 	
-		var divI = document.getElementById("Nodes") ; 
-		divI.insertBefore(Line,document.getElementById(queueNode.next.lineId)) ; 
-		document.getElementById(queueNode.lineId).style.width = '25px';
-		document.getElementById(head.next.lineId).style.width = '0px';
-		drawLine(Line.id);
-		var node = document.createElement("canvas") ;
-		node.className = "Circle";
-		var ctx = node.getContext("2d");
-		ctx.fillStyle = "yellow";
-		ctx.font = "bold 50px Arial";
-		ctx.fillText(parseInt(val,10),130,90);
-		node.id = head.nodeId ; 
-		setTimeout(
-			function()
-			{
-				node.style.width = '0px' ;
-				node.style.border = '0' ; 
-				divI.insertBefore(node,document.getElementById(queueNode.next.lineId)) ; 
-				drawCircle(node.id) ; 
-			}
-			,300
-		);
-		setTimeout
-		(
-			function() 
-			{
-				drawLine(head.next.lineId) ; 
-			}
-			,700
-		);
-		setTimeout(
-			function()
-			{
-				toggleClass(node);
-			}
-			, 1000
-		);
-		size++;	
 	}
 	this.pop_back = function () 
 	{
@@ -293,7 +324,9 @@ function Queue()
 		(
 			function()
 			{	
+				updateActionBox(process + 'Pop back is done') ; 
 				document.getElementById("Nodes").removeChild(node) ; 
+				running = false ; 
 			}
 			,1200
 		);
@@ -347,4 +380,155 @@ deleteCanvas = function( canvasId )
 	)
 }
 
+function updateActionBox ( update ) 
+{
+	$('#action').text(update) ; 
+}
 
+function undo()
+{
+	if ( undoList.empty() ) 
+	{
+		running = false ; 
+		return ; 
+	}
+	var order = undoList.top(); 
+	if ( order[0] == 'front' ) 
+	{
+		process = 'Undo front : Done' ; 
+		updateActionBox(process) ; 
+		running = false ;
+	}
+	else if ( order[0] == 'back' ) 
+	{
+		process = 'Undo back : Done' ; 
+		updateActionBox(process) ; 
+		running = false ; 
+	}
+	else if ( order[0] == 'Push Back' ) 
+	{	
+		process = 'Undo push back : ' ; 
+		queue.pop_back() ; 
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,1000
+		) ; 
+	}
+	else if ( order[0] == 'Push Front' ) 
+	{	
+		process = 'Undo push front : ' ; 
+		queue.pop_front() ; 
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,1000
+		) ; 
+	}
+	else if ( order[0] == 'Pop Front' ) 
+	{
+		process = 'Undo pop front : ' ; 
+		queue.push_front(order[1]) ; 
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,1000
+		) ; 
+	}
+	else if ( order[0] == 'Pop Back' ) 
+	{
+		process = 'Undo pop back : ' ; 
+		queue.push_back(order[1]) ; 
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,1000
+		) ; 
+	}
+	redoList.push(undoList.top()) ; 
+	undoList.pop() ; 
+}
+function redo() 
+{
+	if ( redoList.empty() ) 
+	{
+		running = false ; 
+		return ; 
+	}
+	var order = redoList.top() ; 
+	if ( order[0] == 'Push Front' ) 
+	{
+		process = 'Redo push front : ' ;  
+		queue.push_front(order[1]) ; 
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,1000
+		) ; 
+	}
+	else if ( order[0] == 'Push Back' ) 
+	{
+		process = 'Redo push back : ' ; 
+		queue.push_back(order[1]) ; 
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,1000
+		) ; 
+	}
+	else if ( order[0] == 'Pop Front' ) 
+	{
+		process = 'Redo pop front : ' ; 
+		queue.pop_front() ; 
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,1000
+		) ; 
+	}
+	else if ( order[0] == 'Pop Back' ) 
+	{
+		process = 'Redo pop back : ' ; 
+		queue.pop_back() ; 
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,1000
+		) ; 
+	}
+	else if ( order[0] == 'front' ) 
+	{
+		process = 'Redo front : ' ; 
+		queue.front() ;  
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,500
+		) ; 
+	}
+	else if ( order[0] == 'back' ) 
+	{
+		process = 'Redo back : ' ; 
+		queue.back() ;  
+		setTimeout( function() 
+			{
+				running = false ; 
+			}
+			,500
+		) ; 
+	}
+	undoList.push(redoList.top()) ; 
+	redoList.pop() ; 
+	
+}
+var undoList = new Stack() ; 
+var redoList = new Stack() ; 

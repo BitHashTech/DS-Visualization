@@ -1,9 +1,9 @@
 html {
 	background-color: #38D18F;
 }
+
 #sideList {
-	width: 470px;
-	height: 280px;
+	width: 450px ; 
 }
 .Circle2 {
 	position:absolute;

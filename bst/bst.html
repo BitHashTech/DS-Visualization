@@ -5,12 +5,16 @@
 	<script src="../external/jquery/jquery.js"></script>
 	<script src="../external/jquery-ui.min.js"></script>
 	<script src="queue.js"></script>
+	<script src="stack.js"></script>
 	<script type='text/javascript' src='bst.js'></script>
 		<head>
 			<title>Binary Search Tree</title>
 		</head>
-			
 		<body>
+			<div id = "actionBar" title="Action Bar" >
+				<p id = "action"></p>
+			</div>
+		
 			<div id = "Nodes" class = "Contain" >
 			</div>
 			<div id='sideList'>
@@ -43,9 +47,18 @@
 						<button id="postOrder" style="width:125px;">Post-Order</button>
 					</div>
 				</div>
+				<h5>Undo</h5>
+				<div id="undo">
+					<button id="undoButton" style="width:100px;">Undo</button>
+				</div>
+				<h5>Redo</h5>
+				<div id="redo">
+					<button id="redoButton" style="width:125px;">Redo</button>
+				</div>
+				<h5>Show Action Bar</h5>
+				<div id="showActionBar">
+					<button id="showActionBarButton" style="width:125px;">Show</button>
+				</div>
 			</div>
-			<div id='bst'>
-			</div>
-			
 		</body>
 	</html>

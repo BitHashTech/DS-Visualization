@@ -1,69 +1,39 @@
-function undo()
-{
-	if ( undoList.empty() ) return ; 
-	var order = undoList.top(); 
-	if ( order[0] == 'front' ) 
-	{
-		alert(order[0]) ; 
-		queue.front() ; 
-		
-	}
-	else if ( order[0] == 'push' ) 
-	{	
-		alert(order[0] + ' ' + order[1] ) ;
-		queue.pop_back() ; 
-	
-	}
-	else if ( order[0] == 'pop' ) 
-	{
-		alert(order[0] ) ; 
-		queue.push_front(order[1]) ; 
-	}
-	redoList.push(undoList.top()) ; 
-	undoList.pop() ; 
-}
-function redo() 
-{
-	if ( redoList.empty() ) return ; 
-	var order = redoList.top() ; 
-	if ( order[0] == 'push' ) 
-	{
-		alert(order[0] + ' ' + order[1]) ; 
-		queue.push_back(order[1]) ; 
-	}
-	else if ( order[0] == 'pop' ) 
-	{
-		alert(order[0]) ; 
-		queue.pop_front() ; 
-	}
-	else if ( order[0] == 'front' ) 
-	{
-		alert(order[0]) ;
-		queue.front() ;  
-	}
-	undoList.push(redoList.top()) ; 
-	redoList.pop() ; 
-	
-}
 var queue = new Queue() ;
-var undoList = new Stack() ; 
-var redoList = new Stack() ; 
 
 $(document).ready(function(){
-	
 	    $('#sideList-queue').draggable(); // make the list movable 
 		
-		$('#sideList-queue').accordion({collapsible: true , heightStyle: "fill"});
+		$('#sideList-queue').accordion({collapsible: true , heightStyle: "content"});
 		
+		$('#actionBar').dialog({
+			width:'15%',
+			maxHeight: 170,
+		}) ; 
 		$(function(){
 			$('#push').submit(function(event) {
 				// @@@
 				var inputNumber = $("#push").find('input[name="value"]').val() ; 
 				if ( inputNumber != '' )
 				{
-					queue.push_back(inputNumber);
-					undoList.push(['push',inputNumber]) ; 
-					redoList.clear() ; 
+					if ( running == false ) 
+					{
+						inputNumber = parseInt(inputNumber,10) ; 
+						running = true ; 
+						process = 'Push back : ' ;
+						queue.push_back(inputNumber);
+						undoList.push(['Push Back',inputNumber]) ; 
+						redoList.clear() ; 
+						setTimeout( function() 
+							{
+								running = false ; 
+							}
+							,1000
+						) ; 
+					}
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
 				}
 				$('#pushTextBox1').val('') ; 
 				event.preventDefault() ; 
@@ -74,9 +44,24 @@ $(document).ready(function(){
 				// @@
 				if ( queue.getSize() > 0 ) 
 				{
-					queue.front() ; 
-					undoList.push(['front']) ; 
-					redoList.clear() ; 
+					if ( running == false ) 
+					{
+						process = 'Front : ' ; 
+						running = true ; 
+						queue.front() ; 
+						undoList.push(['front']) ; 
+						redoList.clear() ; 
+						setTimeout( function() 
+							{
+								running = false ; 
+							}
+							,500
+						) ; 
+					}
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
 				}
 				event.preventDefault() ; 
 			});
@@ -86,24 +71,64 @@ $(document).ready(function(){
 				// @@
 				if ( queue.getSize() > 0 ) 
 				{
-					var number = queue.getHead() ; 
-					queue.pop_front() ; 
-					undoList.push(['pop',number]) ; 
-					redoList.clear() ; 
+					if ( running == false ) 
+					{
+						process = 'Pop front : ' ; 
+						running = true ; 
+						var number = queue.getHead() ; 
+						queue.pop_front() ; 
+						undoList.push(['Pop front',number]) ; 
+						redoList.clear() ; 
+						setTimeout( function() 
+							{
+								running = false ; 
+							}
+							,1000
+						) ; 
+					}
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
 				}
 				event.preventDefault() ; 
 			});
 		});
 		$(function(){
 			$('#undo').click(function(event) {
-				undo() ; 
+				if ( running == false ) 
+				{
+					running = true ; 
+					undo() ; 
+				}
+				else 
+				{
+					alert('Visualization is running') ; 
+				}
 				event.preventDefault() ; 
 			});
 		});
 		$(function(){
 			$('#redo').click(function(event) {
-				redo() ; 
+				if ( running == false ) 
+				{
+					running = true ; 
+					redo() ;
+				}
+				else 
+				{
+					alert('Visualization is running') ; 
+				} 
 				event.preventDefault() ; 
+			});
+		});
+		
+		$(function(){
+			$('#showActionBarButton').click(function(event){
+				$('#actionBar').dialog({
+					width:'15%',
+					maxHeight: 170,
+				}) ; 
 			});
 		});
 });

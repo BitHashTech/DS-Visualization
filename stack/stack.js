@@ -1,3 +1,6 @@
+var running = false ;
+var maxNumberNodes = 100 ; 
+var process = '' ;
 function Queue()
 {
 	var head = null , tail = null ; 
@@ -11,28 +14,13 @@ function Queue()
 		this.lineId = ++ctr ; 
 		this.nodeId = ++ctr ; 
 	}
-	this.push_back = function ( val ) 
+	var push_Head = function ( val ) 
 	{
 		var Line = document.createElement("canvas");  
 		Line.className = "LINE";
 		var ctxLine = Line.getContext("2d");
-		if ( head == null ) 
-		{
-			head = new newNode(val) ;
-			tail = head ; 
-		}
-		else 
-		{
-			ctxLine.beginPath();
-			ctxLine.moveTo(300,0);
-			ctxLine.lineTo(300,150);
-			ctxLine.lineWidth = 5;
-			ctxLine.stroke();
-			tail.next = new newNode(val) ;
-			tail.next.prev = tail ; 
-			tail = tail.next ; 	
-			ctxLine.closePath();
-		}
+		head = new newNode(val) ;
+		tail = head ; 
 		Line.id = tail.lineId ; 
 		document.getElementById("Nodes").appendChild(Line);
 		drawLine(Line.id);
@@ -41,14 +29,14 @@ function Queue()
 		var ctx = node.getContext("2d");
 		ctx.fillStyle = "yellow";
 		ctx.font = "bold 50px Arial";
-		ctx.fillText(parseInt(val,10),130,90);
+		ctx.fillText(val,130,90);
 		node.id = ctr ; 
 		var divI = document.getElementById("Nodes") ; 
 		//wait till animation(draw line) is done then make the node appear 
 		setTimeout(
 			function()
 			{
-				node.style.height = '0px' ; 
+				node.style.width = '0px' ; 
 				node.style.border = '0' ; 
 				divI.appendChild(node) ; 
 				drawCircle(node.id) ; 
@@ -59,15 +47,24 @@ function Queue()
 		setTimeout(
 			function()
 			{
+				updateActionBox(process + val + ' is pushed') ; 	
 				toggleClass(node);
+				running = false ; 
 			}
 			, 1000 
 		)
 		size++;
 	}
-	
+
 	this.push_front = function ( val ) 
 	{
+		
+		if ( size > maxNumberNodes ) 
+		{
+			alert('Max number of nodes is 100') ; 
+			return ; 
+		}
+		val = val ; 
 		if ( size == 0 ) 
 		{
 			this.push_back(val) ; 
@@ -100,7 +97,7 @@ function Queue()
 		var ctx = node.getContext("2d");
 		ctx.fillStyle = "yellow";
 		ctx.font = "bold 50px Arial";
-		ctx.fillText(parseInt(val,10),130,90);
+		ctx.fillText(val,130,90);
 		node.id = head.nodeId ; 
 		setTimeout(
 			function()
@@ -123,7 +120,9 @@ function Queue()
 		setTimeout(
 			function()
 			{
+				updateActionBox ( process + val + ' is pushed' ) ;
 				toggleClass(node);
+				running = false ; 
 			}
 			, 1000
 		);
@@ -135,37 +134,22 @@ function Queue()
 		{
 			var node = document.getElementById(head.nodeId) ; 
 			toggleClass(node) ; 
-			alert(head.value) ; 
 			setTimeout(
 				function()
 				{
+					updateActionBox ( process + head.value + ' is top' ) ;
 					toggleClass(node) ;
+					running = false ; 
 				}
 				,
-				300
+				500
 			);
 			return head.value ; 
 		}
-		return null ; 
-	}
-	this.back = function () 
-	{
-		if ( size > 0 ) 
-		{
-			var node = document.getElementById(tail.nodeId) ; 
-			toggleClass(node) ; 
-			alert(tail.value) ; 
-			setTimeout(
-				function()
-				{
-					toggleClass(node) ;
-				}
-				,
-				300
-			);
-			return tail.value ; 
-		}	
-		return null ; 
+		else {
+			running = false ; 
+			return null ; 
+		}
 	}
 	this.getHead = function() 
 	{
@@ -179,7 +163,12 @@ function Queue()
 	}
 	this.pop_front = function ()
 	{
-		if ( size >= 1 ) 
+		if ( size == 0 ) 
+		{
+			running = false ; 
+			return ; 
+		}
+		else 
 		{
 			var lineID , nodeID ;
 			nodeID = head.nodeId ;
@@ -241,7 +230,9 @@ function Queue()
 			(
 				function()
 				{	
+					updateActionBox ( process + 'Pop is done'  ) ;
 					document.getElementById("Nodes").removeChild(node) ; 
+					running = false ; 
 				}
 				,1200
 			)
@@ -253,53 +244,6 @@ function Queue()
 			}
 		}
 	}
-	this.pop_back = function () 
-	{
-		if ( size == 0 ) return ; 
-		var nodeID = tail.nodeId ;
-		var lineID = tail.lineId ; 
-		tail = tail.prev ; 
-		if ( tail == null ) 
-		{
-			head = null ; 
-		}
-		var node = document.getElementById(nodeID) ; 
-		toggleClass(node) ; 
-		setTimeout
-		(
-			function()
-			{
-				deleteCanvas(lineID) ;
-			}
-			,
-			500
-		);
-		setTimeout(
-			function()
-			{
-				document.getElementById("Nodes").removeChild(document.getElementById(lineID)) ;
-			}
-			,1500
-		)
-		setTimeout
-		(
-			function()
-			{
-				deleteCanvas(nodeID) ;
-			}
-			,
-			500
-		);
-		setTimeout
-		(
-			function()
-			{	
-				document.getElementById("Nodes").removeChild(node) ; 
-			}
-			,1200
-		);
-		size--;
-	}
 	this.getSize = function() 
 	{
 		return size ; 
@@ -310,6 +254,10 @@ function Queue()
 	}
 }
 
+function updateActionBox ( update ) 
+{
+	$('#action').text(update) ; 
+}
 
 toggleClass = function(node) // change the style of canvas 
 {
@@ -351,46 +299,60 @@ deleteCanvas = function( canvasId )
 
 function undo()
 {
-	if ( undoList.empty() ) return ; 
+	if ( undoList.empty() ) {
+		running = false ; 
+		return ; 
+	}
 	var order = undoList.top(); 
 	if ( order[0] == 'top' ) 
 	{
-		alert(order[0]) ; 
-		queue.front() ; 
-		
+		process = "Undo top : Done" ; 
+		updateActionBox(process) ; 
+		running = false ; 
 	}
 	else if ( order[0] == 'push' ) 
 	{	
-		alert(order[0] + ' ' + order[1] ) ;
+		process = "Undo push : " ;
 		queue.pop_front() ; 
 	
 	}
 	else if ( order[0] == 'pop' ) 
 	{
-		alert(order[0] ) ; 
+		process = "Undo pop : " ;
 		queue.push_front(order[1]) ; 
+	}
+	else 
+	{
+		running = false ; 
 	}
 	redoList.push(undoList.top()) ; 
 	undoList.pop() ; 
 }
 function redo() 
 {
-	if ( redoList.empty() ) return ; 
+	if ( redoList.empty() ) {
+		running = false ;
+		return ;
+	}		
 	var order = redoList.top() ; 
 	if ( order[0] == 'push' ) 
 	{
-		alert(order[0] + ' ' + order[1]) ; 
+		process = "Redo push : " ;
 		queue.push_front(order[1]) ; 
 	}
 	else if ( order[0] == 'pop' ) 
 	{
-		alert(order[0]) ; 
+		process = "Redo pop : " ; 
 		queue.pop_front() ; 
 	}
 	else if ( order[0] == 'top' ) 
 	{
-		alert(order[0]) ;
+		process = "Redo top : " ; 
 		queue.front() ;  
+	}
+	else 
+	{
+		running = false ; 
 	}
 	undoList.push(redoList.top()) ; 
 	redoList.pop() ; 
@@ -402,9 +364,13 @@ var redoList = new Stack() ;
 
 $(document).ready(function(){
 	
+		$('#actionBar').dialog({
+			width:'15%',
+			maxHeight: 170,
+		}) ; 
 	    $('#sideList').draggable(); // make the list movable 
 		
-		$('#sideList').accordion({collapsible: true , heightStyle: "fill"});
+		$('#sideList').accordion({collapsible: true , heightStyle: "content"});
 		
 		$(function(){
 			$('#push').submit(function(event) {
@@ -412,9 +378,19 @@ $(document).ready(function(){
 				var inputNumber = $("#push").find('input[name="value"]').val() ; 
 				if ( inputNumber != '' )
 				{
-					queue.push_front(inputNumber);
-					undoList.push(['push',inputNumber]) ; 
-					redoList.clear() ; 
+					if ( running == false ) 
+					{
+						inputNumber = parseInt(inputNumber,10) ; 
+						process = "Push : ";
+						running = true ; 
+						queue.push_front(inputNumber);
+						undoList.push(['push',inputNumber]) ; 
+						redoList.clear() ; 
+					}
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
 				}
 				$('#pushTextBox1').val('') ; 
 				event.preventDefault() ; 
@@ -425,9 +401,18 @@ $(document).ready(function(){
 				// @@
 				if ( queue.getSize() > 0 ) 
 				{
-					queue.front() ; 
-					undoList.push(['top']) ; 
-					redoList.clear() ; 
+					if ( running == false ) 
+					{
+						process = "Top : " ; 
+						running = true ; 
+						queue.front() ; 
+						undoList.push(['top']) ; 
+						redoList.clear() ; 
+					}
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
 				}
 				event.preventDefault() ; 
 			});
@@ -437,24 +422,57 @@ $(document).ready(function(){
 				// @@
 				if ( queue.getSize() > 0 ) 
 				{
-					var number = queue.getHead() ; 
-					queue.pop_front() ; 
-					undoList.push(['pop',number]) ; 
-					redoList.clear() ; 
+					if ( running == false ) 
+					{
+						process = "Pop : " ; 
+						running = true ; 
+						var number = queue.getHead() ; 
+						queue.pop_front() ; 
+						undoList.push(['pop',number]) ; 
+						redoList.clear() ; 
+					}
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
 				}
 				event.preventDefault() ; 
 			});
 		});
 		$(function(){
 			$('#undo').click(function(event) {
-				undo() ; 
+				if ( running == false ) 
+				{
+					running = true ; 
+					undo() ; 
+				}				
+				else 
+				{
+					alert('Visualization is running') ; 
+				}
 				event.preventDefault() ; 
 			});
 		});
 		$(function(){
 			$('#redo').click(function(event) {
-				redo() ; 
+				if ( running == false) 
+				{
+					running = true ; 
+					redo() ; 
+				}
+				else 
+				{
+					alert('Visualization is running') ; 
+				}
 				event.preventDefault() ; 
+			});
+		});
+		$(function(){
+			$('#showActionBarButton').click(function(event){
+				$('#actionBar').dialog({
+					width:'15%',
+					maxHeight: 170,
+				}) ; 
 			});
 		});
 });

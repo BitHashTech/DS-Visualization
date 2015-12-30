@@ -1,3 +1,6 @@
+var running = false ; 
+var process = '' ; 
+var maxNumberNodes = 100 ; 
 var LinkedList=function()
 {
 	var ctr = 0 ; //counter for canvas id  
@@ -14,6 +17,11 @@ var LinkedList=function()
 	
 	this.Append = function (val)
 	{	
+		if ( size > maxNumberNodes ) 
+		{
+			alert('Max number of nodes is 100') ; 
+			return ; 
+		}
 		var Line = document.createElement("canvas");  
 		Line.className = "LINE";
 		var ctxLine = Line.getContext("2d");
@@ -43,7 +51,7 @@ var LinkedList=function()
 		var ctx = node.getContext("2d");
 		ctx.fillStyle = "yellow";
 		ctx.font = "bold 50px Arial";
-		ctx.fillText(parseInt(val,10),130,90);
+		ctx.fillText(val,130,90);
 		node.id = ctr ; 
 		var divI = document.getElementById("Nodes") ; 
 		//wait till animation(draw line) is done then make the node appear 
@@ -61,7 +69,9 @@ var LinkedList=function()
 		setTimeout(
 			function()
 			{
+				updateActionBox( process + val + ' is appended' ) ;
 				toggleClass(node);
+				running = false ; 
 			}
 			, 1000 
 		)
@@ -90,20 +100,22 @@ var LinkedList=function()
 	{
 		if ( current == null ) 
 		{
-			alert("Not Found") ; 
+			updateActionBox( process + val + ' is not found' ) ;
+			running = false ; 
 			return ; 
 		}
 		var node = document.getElementById(current.nodeId) ; 
 		toggleClass(node) ; 
 		if ( current.value == val ) 
 		{
-			alert(idx) ; 
 			setTimeout(
 				function() 
 				{
+					updateActionBox( process + val + ' is found in index ' + idx ) ;
 					toggleClass(node);
 				}
-				,1000) ; 
+				,1000) ;  
+			running = false ; 
 			return ; 
 		}
 		var Next  = moveNode(current) ;  
@@ -114,7 +126,6 @@ var LinkedList=function()
 			}
 			,1000
 		) ;
-		return ; 
 	}
 	
 	InsertInPlace = function(current , val , position ) //insert a value ( val ) in position after node ( current ) 
@@ -166,7 +177,7 @@ var LinkedList=function()
 		var ctx = node.getContext("2d");
 		ctx.fillStyle = "yellow";
 		ctx.font = "bold 50px Arial";
-		ctx.fillText(parseInt(val,10),130,90);
+		ctx.fillText(val,130,90);
 		node.id = ctr ; 
 		setTimeout(
 			function()
@@ -191,8 +202,10 @@ var LinkedList=function()
 		}
 		setTimeout(
 			function()
-			{
-				toggleClass(node);
+			{					
+				updateActionBox( process + val + ' is inserted in index ' + position ) ;
+				toggleClass(node); 
+				running = false ; 
 			}
 			, 1000
 		);
@@ -220,13 +233,14 @@ var LinkedList=function()
 	findByIndex = function(current , idx , i , val) 
 	{
 		if ( current == null || idx >= size || idx < 0 ) 
-		{
-			alert("Out of Limit") ; 
+		{				
+			updateActionBox( process + 'Out of limit' ) ;
+			running = false ; 
 			return ; 
 		}
 		if ( !isNaN(val) && idx == 0 ) //insert val in index 0 
 		{
-			InsertInPlace(current ,val , i ) ;
+			InsertInPlace(current ,val , i ) ; 
 			return ;
 		}
 		var node = document.getElementById(current.nodeId) ; 
@@ -352,7 +366,9 @@ var LinkedList=function()
 			(
 				function()
 				{	
-					document.getElementById("Nodes").removeChild(document.getElementById(nodeID)) ; 
+					updateActionBox( process + 'Deleting from index ' + idx + ' is done' ) ;
+					document.getElementById("Nodes").removeChild(document.getElementById(nodeID)) ;
+					running = false ; 
 				}
 				,2000
 			)
@@ -370,7 +386,17 @@ var LinkedList=function()
 	}
 	
 	this.insert = function(val,index)
-	{
+	{	
+		if ( size > maxNumberNodes ) 
+		{
+			alert('Max number of nodes is 100') ; 
+			return ; 
+		}
+		if ( index == size ) 
+		{
+			this.Append(val) ; 
+			return ; 
+		}
 		findByIndex(head,index,0,val);
 	};
 	
@@ -421,6 +447,10 @@ deleteCanvas = function( canvasId )
  		},700
 	)
 }
+function updateActionBox ( update ) 
+{
+	$('#action').text(update) ; 
+}
 
 var linkedList = new LinkedList();
 var undoList = new Stack() ; 
@@ -428,30 +458,33 @@ var redoList = new Stack() ;
 
 function undo()
 {
-	if ( undoList.empty() ) return ; 
+	if ( undoList.empty() ) 
+	{
+		running = false ; 
+		return ; 
+	}
 	var order = undoList.top(); 
 	if ( order[0] == 'find' ) 
 	{
-		alert(order[0] + ' ' + order[1]) ; 
-		var number = order[1] ; 
-		linkedList.find(number) ; 
-	
+		process = 'Undo find : Done' ;
+		updateActionBox(process) ; 
+		running = false ; 
 	}
 	else if ( order[0] == 'insert' ) 
 	{	
-		alert(order[0] + ' ' + order[1] + ' ' + order[2]) ; 
+		process = 'Undo insert : ' ;
 		var position = order[2] ; 
 		linkedList.del(position) ; 
 	
 	}
 	else if ( order[0] == 'append' ) 
 	{
-		alert(order[0] + ' ' + order[1]) ; 
+		process = 'Undo append : ' ;
 		linkedList.deleteTail() ; 
 	}
 	else if ( order[0] == 'delete' ) 
 	{
-		alert(order[0] + ' ' + order[2]) ; 
+		process = 'Undo delete : ' ;
 		var number = order[1] ; 
 		var position = order[2] ;
 		if ( position == linkedList.getSize() ) 
@@ -460,39 +493,49 @@ function undo()
 			linkedList.insert(number,position) ; 
 				
 	}
+	else 
+	{
+		running = false ; 
+	}
 	redoList.push(undoList.top()) ; 
 	undoList.pop() ; 
 }
 function redo() 
 {
-	if ( redoList.empty() ) return ; 
+	if ( redoList.empty() ) {
+		running = false ;
+		return ; 
+	}
 	var order = redoList.top() ; 
 	if ( order[0] == 'append' ) 
 	{
-		alert(order[0] + ' ' + order[1]) ; 
+		process = 'Redo append : ' ;
 		var number = order[1] ;
 		linkedList.Append(number) ; 
 	}
 	else if ( order[0] == 'insert' ) 
 	{
-		alert(order[0] + ' ' + order[1] + ' ' + order[2] ) ; 
+		process = 'Redo insert : ' ;
 		var number = order[1] ; 
 		var position = order[2] ; 
 		linkedList.insert(number,position) ; 
 	}
 	else if ( order[0] == 'find' ) 
 	{
-		alert(order[0] + ' ' + order[1]) ;
+		process = 'Redo find : ' ;
 		var number = order[1] ; 
 		linkedList.find(number) ; 
 	}
 	else if ( order[0] == 'delete' ) 
 	{
-		alert(order[0] + ' ' + order[2]) ; 
+		process = 'Redo delete : ' ;
 		var position = order[2] ; 
 		linkedList.del(position) ; 
 	}
-	
+	else 
+	{
+		running = false ; 
+	}
 	undoList.push(redoList.top()) ; 
 	redoList.pop() ; 
 	
@@ -502,16 +545,30 @@ $(document).ready(function(){
 	
 	    $('#sideList').draggable(); // make the list movable 
 		
-		$('#sideList').accordion({collapsible: true , heightStyle: "fill"});
+		$('#sideList').accordion({collapsible: true , heightStyle: "content"});
 		
+		$('#actionBar').dialog({
+			width:'15%',
+			maxHeight: 170,
+		}) ; 
 		$(function(){
-			$('#append').submit(function(event) {
+			$('#append').submit(function(event) {				
 				var inputNumber = $("#append").find('input[name="value"]').val() ; 
 				if ( inputNumber != '' )
 				{
-					linkedList.Append(inputNumber) ; 
-					undoList.push(['append',inputNumber]); 
-					redoList.clear() ; 
+					if ( running == false ) 
+					{
+						inputNumber = parseInt(inputNumber,10) ; 
+						process = 'Append : ' ;
+						running = true ; 
+						linkedList.Append(inputNumber) ; 
+						undoList.push(['append',inputNumber]); 
+						redoList.clear() ; 
+					}
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
 				}
 				$('#appendTextBox1').val('') ; 
 				event.preventDefault() ; 
@@ -522,11 +579,20 @@ $(document).ready(function(){
 				var inputNumber = $("#find").find('input[name="value"]').val() ; 
 				if ( inputNumber != '' )
 				{
-					linkedList.find(inputNumber) ; 
-					undoList.push(['find',inputNumber]) ; 
-					redoList.clear() ; 
-					
-				}			
+					if ( running == false ) 
+					{
+						inputNumber = parseInt(inputNumber,10) ; 
+						process = 'Find : ';
+						running = true ; 
+						linkedList.find(inputNumber) ; 
+						undoList.push(['find',inputNumber]) ; 
+						redoList.clear() ; 
+					}
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
+				}
 				$('#findTextBox1').val('') ; 
 				event.preventDefault() ; 
 			});
@@ -537,9 +603,20 @@ $(document).ready(function(){
 				var inputPosition = $("#insert").find('input[name="position"]').val();
 				if ( inputNumber != '' && inputPosition != '' )
 				{
-					linkedList.insert(inputNumber,inputPosition) ; 
-					undoList.push(['insert',inputNumber,inputPosition]) ; 
-					redoList.clear() ; 
+					if ( running == false ) 
+					{
+						inputNumber = parseInt(inputNumber,10) ; 
+						inputPosition = parseInt(inputPosition,10) ; 
+						process = 'Insert : ' ;
+						running = true ; 
+						linkedList.insert(inputNumber,inputPosition) ; 
+						undoList.push(['insert',inputNumber,inputPosition]) ; 
+						redoList.clear() ; 
+					}					
+					else 
+					{
+						alert('Visualization is running') ; 
+					}
 				}
 				$('#insertTextBox1').val('') ; 
 				$('#insertTextBox2').val('') ; 
@@ -551,16 +628,26 @@ $(document).ready(function(){
 				var inputPosition = $("#delete").find('input[name="position"]').val();
 				if ( inputPosition != '' )
 				{
-					var valueInPosition = linkedList.findValInPosition(inputPosition); 
-					if ( valueInPosition == null )
+					if ( running == false ) 
 					{
-						alert('Out of Limit') ; 
+						inputPosition = parseInt(inputPosition,10) ; 
+						process = 'Delete : ' ;
+						var valueInPosition = linkedList.findValInPosition(inputPosition); 
+						if ( valueInPosition == null )
+						{
+							updateActionBox( process + 'Out of limit') ; 
+						}
+						else 
+						{
+							running = true ; 
+							linkedList.del(inputPosition) ;
+							undoList.push(['delete',valueInPosition,inputPosition]); 
+							redoList.clear() ; 
+						}
 					}
 					else 
 					{
-						linkedList.del(inputPosition) ;
-						undoList.push(['delete',valueInPosition,inputPosition]); 
-						redoList.clear() ; 
+						alert('Visualization is running') ; 
 					}
 				}
 				//alert('Success');
@@ -570,14 +657,38 @@ $(document).ready(function(){
 		});
 		$(function(){
 			$('#undo').click(function(event) {
-				undo() ; 
+				if ( running == false ) 
+				{
+					running = true ; 
+					undo() ; 
+				}
+				else 
+				{
+					alert('Visualization is running') ; 
+				}
 				event.preventDefault() ; 
 			});
 		});
 		$(function(){
 			$('#redo').click(function(event) {
-				redo() ; 
+				if ( running == false ) 
+				{
+					running = true ; 
+					redo() ; 
+				}
+				else 
+				{
+					alert('Visualization is running') ; 
+				}
 				event.preventDefault() ; 
+			});
+		});
+		$(function(){
+			$('#showActionBarButton').click(function(event){
+				$('#actionBar').dialog({
+					width:'15%',
+					maxHeight: 170,
+				}) ; 
 			});
 		});
 });

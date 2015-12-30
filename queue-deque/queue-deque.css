@@ -3,12 +3,9 @@ html {
 }
 #sideList-deque {
 	width: 350px;
-	height: 420px;
 }
 #sideList-queue {
-	padding: 0px;
 	width: 350px;
-	height: 290px;
 }
 .Circle2 {
 	border: 2px solid black;
@@ -34,7 +31,7 @@ html {
 }
 .Contain
 {
-	top : 100px;
+	top : 50px ; 
 	position : relative ;
 	white-space : nowrap ;
 }
