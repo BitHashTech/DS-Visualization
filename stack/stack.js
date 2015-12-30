@@ -36,7 +36,7 @@ function Queue()
 		setTimeout(
 			function()
 			{
-				node.style.width = '0px' ; 
+				node.style.height = '0px' ; 
 				node.style.border = '0' ; 
 				divI.appendChild(node) ; 
 				drawCircle(node.id) ; 
@@ -67,7 +67,7 @@ function Queue()
 		val = val ; 
 		if ( size == 0 ) 
 		{
-			this.push_back(val) ; 
+			push_Head(val) ; 
 			return ; 
 		}
 		var Line = document.createElement("canvas");
