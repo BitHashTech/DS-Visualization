@@ -208,8 +208,19 @@ function binarySearchTree () {
 		,1250
 		);
 		toBeTransfered.lineLeft = tempLine + 2 ; 
-		if(toBeTransfered.left!=null){transferNodes(toBeTransfered.left,topPos+10,leftPos-toBeTransfered.leftDiff,leftPos-toBeTransfered.leftDiff);}
-		if(toBeTransfered.right!=null){transferNodes(toBeTransfered.right,topPos+10,leftPos+toBeTransfered.leftDiff,Math.min(toBeTransfered.leftPos,toBeTransfered.lineLeft));}
+		var isFinished = true ; 
+		if(toBeTransfered.left!=null){
+			transferNodes(toBeTransfered.left,topPos+10,leftPos-toBeTransfered.leftDiff,leftPos-toBeTransfered.leftDiff);
+			isFinished = false ; 
+		}
+		if(toBeTransfered.right!=null){
+			transferNodes(toBeTransfered.right,topPos+10,leftPos+toBeTransfered.leftDiff,Math.min(toBeTransfered.leftPos,leftPos+toBeTransfered.leftDiff));
+			isFinished = false ; 
+		}
+		if ( isFinished == true ) 
+		{
+			running = false ; 
+		}
 	}
 	
 	this.deleteVal = function( value ) 
@@ -362,7 +373,6 @@ function binarySearchTree () {
 						document.getElementById("Nodes").removeChild(document.getElementById(temp.nodeId)) ;
 						document.getElementById("Nodes").removeChild(document.getElementById(tempLineToBeDeleted)) ;
 						transferNodes(temp.left,temp.topPos,temp.leftPos,temp.lineLeft-2);
-						running = false ; 
 					}
 					, 1250
 				)
@@ -384,7 +394,6 @@ function binarySearchTree () {
 						document.getElementById("Nodes").removeChild(document.getElementById(temp.nodeId)) ;
 						document.getElementById("Nodes").removeChild(document.getElementById(tempLineToBeDeleted)) ;
 						transferNodes(temp.right,temp.topPos,temp.leftPos,temp.lineLeft-2);
-						running = false ; 
 					}
 					, 1250
 				)
