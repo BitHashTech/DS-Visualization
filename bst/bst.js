@@ -308,7 +308,6 @@ function binarySearchTree () {
 						temp2=temp2.left;
 						colorQueue.push(temp2) ; 
 					}
-					var leastOnRight =temp2.value;
 					colorQueue.push([ 'swapValues' , temp, temp2 ] ) ; 
 					colorQueue.push([ 'deleteLowest' , temp , temp2 ]) ;
 				}
@@ -420,7 +419,7 @@ function binarySearchTree () {
 				ctx.font = "bold 70px Arial";	
 				ctx.fillText(temp2.value,130,90);
 				toggleClass(tempNode) ; 
-				toggleClass(temp2Node) ; 
+				toggleClass(temp2Node) ;
 				var ctx2 = temp2Node.getContext("2d");
 				ctx2.clearRect(0,0,temp2Node.width,temp2Node.height) ; 
 				ctx2.fillStyle = "#B22222";
@@ -440,8 +439,9 @@ function binarySearchTree () {
 			else if ( currentState[0] == 'deleteLowest' )
 			{
 				var temp = currentState[1] ; 
-				updateInfoBox(process + 'deleting ' + temp.value) ; 
+				updateInfoBox(process + 'deleting ' + temp.value) ;
 				deleteAt(currentState[2].value , temp.value ) ; 
+				return ; 
 			}
 		}
 		if ( colorQueue.getSz() == 1 && order == 'insert' ) 
