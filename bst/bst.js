@@ -130,7 +130,6 @@ function binarySearchTree () {
 				temp=temp.left;
 			}
 		}
-		running = false ; 
 		if(temp==null){
 			colorQueue.push(value) ; 
 			colorNodes('nFound') ; 
@@ -472,10 +471,10 @@ function binarySearchTree () {
 				{
 					updateActionBox( process + current.value + ' is inserted' ) ; 
 					toggleClass(Node);
-				}
+					running = false ; 
+				}	
 				, 1200 
 			)
-			running = false ; 
 			return ; 
 		}
 		else if ( colorQueue.getSz() == 1 && order == 'nFound' ) 
