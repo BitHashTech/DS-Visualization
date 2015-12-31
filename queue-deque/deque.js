@@ -25,12 +25,6 @@ $(document).ready(function(){
 						queue.push_front(inputNumber);
 						undoList.push(['Push Front',inputNumber]) ; 
 						redoList.clear() ; 
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,1000
-						) ; 
 					}
 					else 
 					{
@@ -55,13 +49,6 @@ $(document).ready(function(){
 						queue.push_back(inputNumber);
 						undoList.push(['Push Back',inputNumber]) ; 
 						redoList.clear() ; 
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,1000
-						) ; 
-
 					}
 					else 
 					{
@@ -84,13 +71,6 @@ $(document).ready(function(){
 						queue.front() ; 
 						undoList.push(['front']) ; 
 						redoList.clear() ; 
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,500
-						) ; 
-
 					}
 					else 
 					{
@@ -112,13 +92,6 @@ $(document).ready(function(){
 						queue.back() ; 
 						undoList.push(['back']) ; 
 						redoList.clear() ; 
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,500
-						) ; 
-
 					}
 					else 
 					{
@@ -141,13 +114,6 @@ $(document).ready(function(){
 						queue.pop_front() ; 
 						undoList.push(['Pop Front',number]) ; 
 						redoList.clear() ;
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,1000
-						) ; 
-
 					}
 					else 
 					{
@@ -169,14 +135,7 @@ $(document).ready(function(){
 						var number = queue.getHead() ; 
 						queue.pop_back() ; 
 						undoList.push(['Pop Back',number]) ; 
-						redoList.clear() ; 
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,1000
-						) ; 
-
+						redoList.clear() ;
 					}
 					else 
 					{

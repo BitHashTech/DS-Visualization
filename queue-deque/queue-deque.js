@@ -151,7 +151,7 @@ function Queue()
 				toggleClass(node);
 				running = false ; 
 			}
-			, 1000
+			, 1500
 		);
 		size++;	
 	}
@@ -409,45 +409,21 @@ function undo()
 	{	
 		process = 'Undo push back : ' ; 
 		queue.pop_back() ; 
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,1000
-		) ; 
 	}
 	else if ( order[0] == 'Push Front' ) 
 	{	
 		process = 'Undo push front : ' ; 
-		queue.pop_front() ; 
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,1000
-		) ; 
+		queue.pop_front() ;
 	}
 	else if ( order[0] == 'Pop Front' ) 
 	{
 		process = 'Undo pop front : ' ; 
 		queue.push_front(order[1]) ; 
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,1000
-		) ; 
 	}
 	else if ( order[0] == 'Pop Back' ) 
 	{
 		process = 'Undo pop back : ' ; 
 		queue.push_back(order[1]) ; 
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,1000
-		) ; 
 	}
 	redoList.push(undoList.top()) ; 
 	undoList.pop() ; 
@@ -464,67 +440,31 @@ function redo()
 	{
 		process = 'Redo push front : ' ;  
 		queue.push_front(order[1]) ; 
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,1000
-		) ; 
 	}
 	else if ( order[0] == 'Push Back' ) 
 	{
 		process = 'Redo push back : ' ; 
 		queue.push_back(order[1]) ; 
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,1000
-		) ; 
 	}
 	else if ( order[0] == 'Pop Front' ) 
 	{
 		process = 'Redo pop front : ' ; 
 		queue.pop_front() ; 
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,1000
-		) ; 
 	}
 	else if ( order[0] == 'Pop Back' ) 
 	{
 		process = 'Redo pop back : ' ; 
 		queue.pop_back() ; 
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,1000
-		) ; 
 	}
 	else if ( order[0] == 'front' ) 
 	{
 		process = 'Redo front : ' ; 
 		queue.front() ;  
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,500
-		) ; 
 	}
 	else if ( order[0] == 'back' ) 
 	{
 		process = 'Redo back : ' ; 
 		queue.back() ;  
-		setTimeout( function() 
-			{
-				running = false ; 
-			}
-			,500
-		) ; 
 	}
 	undoList.push(redoList.top()) ; 
 	redoList.pop() ; 

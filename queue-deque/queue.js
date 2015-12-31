@@ -23,13 +23,7 @@ $(document).ready(function(){
 						process = 'Push back : ' ;
 						queue.push_back(inputNumber);
 						undoList.push(['Push Back',inputNumber]) ; 
-						redoList.clear() ; 
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,1000
-						) ; 
+						redoList.clear() ;
 					}
 					else 
 					{
@@ -52,12 +46,6 @@ $(document).ready(function(){
 						queue.front() ; 
 						undoList.push(['front']) ; 
 						redoList.clear() ; 
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,500
-						) ; 
 					}
 					else 
 					{
@@ -80,12 +68,6 @@ $(document).ready(function(){
 						queue.pop_front() ; 
 						undoList.push(['Pop front',number]) ; 
 						redoList.clear() ; 
-						setTimeout( function() 
-							{
-								running = false ; 
-							}
-							,1000
-						) ; 
 					}
 					else 
 					{

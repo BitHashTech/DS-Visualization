@@ -90,7 +90,7 @@ function binarySearchTree () {
 					// repetead nodes
 					alert('no dubplicates') ;
 					running = false ; 
-					return ; 
+					return false; 
 				}
 			}
 		}
@@ -113,6 +113,7 @@ function binarySearchTree () {
 		divI.appendChild(Node) ; // draw circle
 		colorQueue.push(temp) ; 
 		colorNodes('insert') ; 
+		return true ; 
 	}
 	this.find = function(value){
 		var temp = root;
@@ -220,7 +221,7 @@ function binarySearchTree () {
 	}
 	this.deleteVal = function( value ) 	{
 		colorQueue.clear() ;
-		deleteAt(value,'first') ; 
+		return deleteAt(value,'first') ; 
 	}
 	var deleteAt = function (value , param) { 
 		var temp=root,parent=null,found=false,temp2,parent2;
@@ -318,7 +319,9 @@ function binarySearchTree () {
 		{
 			updateInfoBox(process + value + ' is not found' ) ; 
 			running=false;
+			return false ; 
 		}
+		return true ; 
 	}
 	function colorNodes( order ) // Coloring all nodes used in all operations done on BST  
 	{ 
@@ -675,9 +678,12 @@ $(document).ready(function(){
 						inputNumber = parseInt(inputNumber,10) ; 
 						process = 'Insert ' + inputNumber + ' : ' ;
 						running = true ; 
-						bst.insert(inputNumber);
-						undoList.push(['insert',inputNumber]) ; 
-						redoList.clear() ; 
+						var result = bst.insert(inputNumber);
+						if ( result == true ) 
+						{
+							undoList.push(['insert',inputNumber]) ; 
+							redoList.clear() ; 
+						}
 					}
 				}
 				else 
@@ -720,12 +726,16 @@ $(document).ready(function(){
 				{
 					if ( inputNumber != '' )
 					{
+						
 						inputNumber = parseInt(inputNumber,10) ; 
 						process = 'Delete ' + inputNumber + ' : ' ;
 						running = true ; 
-						bst.deleteVal(inputNumber);
-						undoList.push(['delete',inputNumber]) ; 
-						redoList.clear() ; 
+						var result = bst.deleteVal(inputNumber);
+						if ( result == true ) 
+						{
+							undoList.push(['delete',inputNumber]) ; 
+							redoList.clear() ; 
+						}
 					}
 				}
 				else 
