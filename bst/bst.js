@@ -1,25 +1,25 @@
-var running = false ; 
-var process = '' ;
+var running = false ; // to disallow parallel operations
+var process = '' ; //current process (to cout in Action box)
 function binarySearchTree () {
-	var ctr = 0 ; // for id 
-	var root = null;
+	var counter = 0 ; // for id of circle and line , to be used in drawing
+	var root = null; 
 	var node = function(value){
 		this.value = value ;
 		this.left = null ;
 		this.right = null ;
-		this.topPos = 0 ; 
-		this.leftPos = 50 ;
-		this.leftDiff = 25 ;
-		this.lineLeft = 52 ; 
-		this.lineWidth = 0 ; 
-		this.lineDirection = null ; 
-		this.lineId = ++ctr ;
-		this.nodeId = ++ctr ;
+		this.topPos = 0 ; //Y-axis position of node
+		this.leftPos = 50 ; //X-axis position of node
+		this.leftDiff = 25 ; // diff between the current node and the next node
+		this.lineLeft = 52 ; // beginning position of the line connecting the node and its parent
+		this.lineWidth = 0 ; // the width of the line
+		this.lineDirection = null ; // direction of line depend on child
+		this.lineId = ++counter ;
+		this.nodeId = ++counter ;
 	}
 	this.insert = function(value){
 		colorQueue.clear() ; 
-		var Line = document.createElement("canvas");  
-		Line.className = "LINE";
+		var Line = document.createElement("canvas"); // create canvas to draw in it  
+		Line.className = "LINE"; // pass class line to canvas for drawing
 		var temp=root;
 		var level = 1 ; 
 		if(root == null)
@@ -44,13 +44,13 @@ function binarySearchTree () {
 						temp.right=new node(value),
 						Line.id = temp.right.lineId ; // id for the line 
 						colorQueue.push(temp) ; 
-						temp.right.topPos = temp.topPos+10;
-						temp.right.leftPos = temp.leftPos+temp.leftDiff;
-						temp.right.lineWidth = temp.leftDiff ;
+						temp.right.topPos = temp.topPos+10; // set Y-axis of node
+						temp.right.leftPos = temp.leftPos+temp.leftDiff; //set X-axis of node
+						temp.right.lineWidth = temp.leftDiff ; // set line width
 						temp.right.lineLeft = Math.min(temp.leftPos,temp.right.leftPos) + 2 ; 
 						temp.right.leftDiff = temp.leftDiff/2. ; 
 						temp = temp.right ; 
-						temp.lineDirection = 'right' ; 
+						temp.lineDirection = 'right' ; // set line direction
 						break;
 					}
 					else
@@ -71,13 +71,13 @@ function binarySearchTree () {
 						temp.left=new node(value),
 						Line.id = temp.left.lineId // id for the line 
 						colorQueue.push(temp) ; 
-						temp.left.topPos = temp.topPos+10;
-						temp.left.leftPos = temp.leftPos-temp.leftDiff;
-						temp.left.lineWidth = temp.leftDiff ;
+						temp.left.topPos = temp.topPos+10;  // set Y-axis of node
+						temp.left.leftPos = temp.leftPos-temp.leftDiff; //set X-axis of node
+						temp.left.lineWidth = temp.leftDiff ;// set line width
 						temp.left.lineLeft = Math.min(temp.leftPos,temp.left.leftPos) + 2 ; 
 						temp.left.leftDiff = temp.leftDiff/2. ; 
 						temp = temp.left ; 
-						temp.lineDirection = 'left' ; 
+						temp.lineDirection = 'left' ; // set line direction
 						break;
 					}
 					else{
@@ -87,35 +87,32 @@ function binarySearchTree () {
 					}
 				}
 				else{
-					// make it return better :D  34an elly b3dha fe rsm w kda @@ 
+					// repetead nodes
 					alert('no dubplicates') ;
 					running = false ; 
 					return ; 
-					//break;
 				}
 			}
 		}
-		Line.style.top = temp.topPos - 3.8 + '%'; 
-		Line.style.height = '14%' ; 
-		Line.style.left = temp.lineLeft + '%';
-		Line.style.width = temp.lineWidth + '%'; 
-		document.getElementById("Nodes").appendChild(Line);
-		var Node = document.createElement("canvas") ;
-		Node.className = 'Circle' ;  
-		var ctx = Node.getContext("2d");
+		Line.style.top = temp.topPos - 3.8 + '%'; // set line Y-axis position
+		Line.style.height = '14%' ; // set line heigth
+		Line.style.left = temp.lineLeft + '%'; // set line X-axis position
+		Line.style.width = temp.lineWidth + '%'; // ste line width
+		document.getElementById("Nodes").appendChild(Line); // draw line
+		var Node = document.createElement("canvas") ; // create new canvas for circle
+		Node.className = 'Circle' ;  // pass style of circle to canvas
+		var ctx = Node.getContext("2d");  
 		Node.id = temp.nodeId ; 
-		ctx.fillStyle = "yellow";
-		ctx.font = "bold 65px Arial";
-		ctx.fillText(value,130,90);
+		ctx.fillStyle = "#660066"; // text color
+		ctx.font = "bold 70px Arial"; // text font
+		ctx.fillText(value,130,90); // text place inside circle (in the center) and writing it 
 		Node.style.top = temp.topPos + '%'; 
 		Node.style.left = temp.leftPos +'%';
 		Node.style.display = 'none';
-		var divI = document.getElementById("Nodes") ;
-		divI.appendChild(Node) ; 
+		var divI = document.getElementById("Nodes") ; 
+		divI.appendChild(Node) ; // draw circle
 		colorQueue.push(temp) ; 
 		colorNodes('insert') ; 
-		//wait till animation(draw line) is done then make the node appear 
-		
 	}
 	this.find = function(value){
 		var temp = root;
@@ -189,8 +186,8 @@ function binarySearchTree () {
 		colorNodes('traverse');
 	}
 	var transferNodes = function (toBeTransfered,topPos,leftPos,tempLine) {
-		toBeTransfered.topPos=topPos;
-		toBeTransfered.leftPos=leftPos;
+		toBeTransfered.topPos=topPos; //move the node Y-axis position to it's parent Y-axis position
+		toBeTransfered.leftPos=leftPos; // move the node X-axis position to it's parent X-axis position
 		toBeTransfered.leftDiff*=2.0;
 		toBeTransfered.lineWidth*=2.0;
 		$('#'+toBeTransfered.nodeId).animate({
@@ -221,13 +218,11 @@ function binarySearchTree () {
 			running = false ; 
 		}
 	}
-	
-	this.deleteVal = function( value ) 
-	{
+	this.deleteVal = function( value ) 	{
 		colorQueue.clear() ;
 		deleteAt(value,'first') ; 
 	}
-	var deleteAt = function (value , param) {  //param ( first , second enter) 
+	var deleteAt = function (value , param) { 
 		var temp=root,parent=null,found=false,temp2,parent2;
 		while(!(found) && temp!=null){
 			if(value>temp.value){
@@ -326,10 +321,8 @@ function binarySearchTree () {
 			running=false;
 		}
 	}
-		
-	function colorNodes( order ) // insert , find ..  
+	function colorNodes( order ) // Coloring all nodes used in all operations done on BST  
 	{ 
-
 		if ( colorQueue.empty() ) {
 			running = false ;
 			return ; 
@@ -423,15 +416,15 @@ function binarySearchTree () {
 				var temp2Node = document.getElementById(temp2.nodeId) ;	
 				var ctx = tempNode.getContext("2d");
 				ctx.clearRect(0,0,tempNode.width,tempNode.height) ; 
-				ctx.fillStyle = "yellow";
-				ctx.font = "bold 65px Arial";	
+				ctx.fillStyle = "#660066";
+				ctx.font = "bold 70px Arial";	
 				ctx.fillText(temp2.value,130,90);
 				toggleClass(tempNode) ; 
 				toggleClass(temp2Node) ; 
 				var ctx2 = temp2Node.getContext("2d");
 				ctx2.clearRect(0,0,temp2Node.width,temp2Node.height) ; 
-				ctx2.fillStyle = "yellow";
-				ctx2.font = "bold 65px Arial";	
+				ctx2.fillStyle = "#B22222";
+				ctx2.font = "bold 70px Arial";	
 				ctx2.fillText(temp.value,130,90);
 				colorQueue.pop() ; 
 				setTimeout( function() 
@@ -473,7 +466,7 @@ function binarySearchTree () {
 					toggleClass(Node);
 					running = false ; 
 				}	
-				, 1200 
+				, 1500 
 			)
 			return ; 
 		}
@@ -511,8 +504,8 @@ function binarySearchTree () {
 	}
 }
 
-var actionResult = [] ; 
-var traverseOrder = [] ; 
+var actionResult = [] ; // to save user history
+var traverseOrder = [] ; // to save numbers of BST to be traversed 
 
 toggleClass = function(node) // change the style of canvas 
 {
@@ -541,9 +534,12 @@ drawLine = function( ctxLine , direction ) { // left or right
 		endX = 280;
 		endY = 70;
 	}
-	setInterval(function() {
+	var setIntervalId ; 
+	setIntervalId = setInterval(function() {
 		amount += 0.05; // change to alter duration
-		if (amount > 1) amount = 1;
+		if (amount > 1) { 
+			clearInterval(setIntervalId) ; 
+		}
 		ctxLine.strokeStyle = "black";
 		ctxLine.moveTo(startX, startY);
 		ctxLine.lineTo(startX + (endX - startX) * amount, startY + (endY - startY) * amount);
@@ -572,13 +568,13 @@ function undo()
 		return ; 
 	}
 	var order = undoList.top(); 
-	if ( order[0] == 'insert' ) 
+	if ( order[0] == 'insert' ) // delete inserted number
 	{	
 		process = 'Undo insert ' + order[1] + ' : ' ; 
 		var val = order[1] ; 
 		bst.deleteVal(val);
 	}
-	else if ( order[0] == 'delete' ) 
+	else if ( order[0] == 'delete' ) // insert deleted number
 	{
 		process = 'Undo delete ' + order[1] + ' : ' ; 
 		var val = order[1] ; 
@@ -606,9 +602,7 @@ function undo()
 			process = 'Undo traverse post order : done'  ; 
 			updateActionBox(process) ; 
 		}
-		
 		running = false ; 
-		// find - order .. 
 	}
 	redoList.push(undoList.top()) ; 
 	undoList.pop() ; 
@@ -662,18 +656,18 @@ function redo()
 }
 
 
-var bst= new binarySearchTree();
+var bst= new binarySearchTree(); 
 
 $(document).ready(function(){
-	    $('#sideList').draggable();
-		$('#sideList').accordion({collapsible: true , heightStyle: 'content' , widthStyle: 'content' });
+	    $('#sideList').draggable(); // make operations list movable 
+		$('#sideList').accordion({collapsible: true , heightStyle: 'content' , widthStyle: 'content' }); // set opration list style
 		$('#actionBar').dialog({
 			width:'15%',
 			maxHeight: 170,
 		}) ; 
 		$(function(){
 			$('#insert').submit(function(event){
-				var inputNumber = $("#insert").find('input[name="value"]').val() ;
+				var inputNumber = $("#insert").find('input[name="value"]').val() ; // get value to be inserted from text box when button clicked
 				if ( running == false ) 
 				{
 					if ( inputNumber != '' )
@@ -697,7 +691,7 @@ $(document).ready(function(){
 		});
 		$(function(){
 			$('#find').submit(function(event){
-				var inputNumber = $("#find").find('input[name="value"]').val() ;
+				var inputNumber = $("#find").find('input[name="value"]').val() ; // get value to search on from text box when button clicked
 				if ( running == false ) 
 				{
 					if ( inputNumber != '' )
@@ -721,7 +715,7 @@ $(document).ready(function(){
 		});
 		$(function(){
 			$('#delete').submit(function(event){
-				var inputNumber = $("#delete").find('input[name="value"]').val() ;
+				var inputNumber = $("#delete").find('input[name="value"]').val() ;// get value to be deleted from text box when button clicked
 				if ( running == false ) 
 				{
 					if ( inputNumber != '' )

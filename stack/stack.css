@@ -7,7 +7,7 @@ html {
 .Circle2 {
 	display: block ; 
 	border: 2px solid black;
-	background-color: red;
+	background-color: #FF6347;
 	border-radius:100%;
 	text-align: center;
 	height:50px;
@@ -16,7 +16,7 @@ html {
 .Circle {
 	display: block ; 
 	border: 2px solid black;
-	background-color: green;
+	background-color: #FFFF99;
 	border-radius:100%;
 	text-align: center;
 	height:50px;

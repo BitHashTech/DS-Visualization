@@ -14,6 +14,15 @@ body, html {
 	padding:10px;
 	position:relative;
 }
+#downBar
+{
+	text-align :center;
+	color : white;
+	height :40px;
+	top:99%;
+	width:100%;	
+	position:relative;
+}
 a
 {
     cursor: pointer;
@@ -54,4 +63,10 @@ a
 	width: 98% ; 
 	height: 85%;
 	position:fixed;
+}
+#signature
+{
+	position :relative;
+	top : 100%;
+	left:10%;
 }

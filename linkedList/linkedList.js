@@ -3,7 +3,7 @@ var process = '' ;
 var maxNumberNodes = 100 ; 
 var LinkedList=function()
 {
-	var ctr = 0 ; //counter for canvas id  
+	var counter = 0 ; //counter for canvas id  
 	var head = null,tail = null;
 	var size=0;
 	
@@ -11,8 +11,8 @@ var LinkedList=function()
 	{
 		this.next=null ;
 		this.value= val;
-		this.lineId = ++ctr ;
-		this.nodeId = ++ctr ; 
+		this.lineId = ++counter ;
+		this.nodeId = ++counter ; 
 	};
 	
 	this.Append = function (val)
@@ -49,10 +49,10 @@ var LinkedList=function()
 		var node = document.createElement("canvas") ;
 		node.className = "Circle" ; 
 		var ctx = node.getContext("2d");
-		ctx.fillStyle = "yellow";
-		ctx.font = "bold 50px Arial";
+		ctx.fillStyle = "#660066";
+		ctx.font = "bold 70px Arial";
 		ctx.fillText(val,130,90);
-		node.id = ctr ; 
+		node.id = counter ; 
 		var divI = document.getElementById("Nodes") ; 
 		//wait till animation(draw line) is done then make the node appear 
 		setTimeout(
@@ -73,7 +73,7 @@ var LinkedList=function()
 				toggleClass(node);
 				running = false ; 
 			}
-			, 1000 
+			, 1500 
 		)
 		size++;
 	};
@@ -175,10 +175,10 @@ var LinkedList=function()
 		var node = document.createElement("canvas") ;
 		node.className = "Circle";
 		var ctx = node.getContext("2d");
-		ctx.fillStyle = "yellow";
-		ctx.font = "bold 50px Arial";
+		ctx.fillStyle = "#660066";
+		ctx.font = "bold 70px Arial";
 		ctx.fillText(val,130,90);
-		node.id = ctr ; 
+		node.id = counter ; 
 		setTimeout(
 			function()
 			{
