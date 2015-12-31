@@ -34,5 +34,6 @@ html {
 	width:10%;
 	top : 0 em;
 	left : 40em;
+	overflow:auto;
 	position : fixed ;
 }

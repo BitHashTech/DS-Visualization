@@ -1,6 +1,6 @@
 var running = false ; 
 var process = '' ; 
-var maxNumberNodes = 100 ; 
+var maxNumberNodes = 16 ; 
 var LinkedList=function()
 {
 	var counter = 0 ; //counter for canvas id  
@@ -17,10 +17,11 @@ var LinkedList=function()
 	
 	this.Append = function (val)
 	{	
-		if ( size > maxNumberNodes ) 
+		if ( size == maxNumberNodes ) 
 		{
-			alert('Max number of nodes is 100') ; 
-			return ; 
+			alert('Max number of nodes is '+ maxNumberNodes) ; 
+			running = false ; 
+			return false ; 
 		}
 		var Line = document.createElement("canvas");  
 		Line.className = "LINE";
@@ -76,6 +77,7 @@ var LinkedList=function()
 			, 1000 
 		)
 		size++;
+		return true ; 
 	};
 	this.del = function (index)
 	{
@@ -387,17 +389,19 @@ var LinkedList=function()
 	
 	this.insert = function(val,index)
 	{	
-		if ( size > maxNumberNodes ) 
+		if ( size == maxNumberNodes ) 
 		{
-			alert('Max number of nodes is 100') ; 
-			return ; 
+			alert('Max number of nodes is ' + maxNumberNodes) ;
+			running = false ; 
+			return false ; 
 		}
 		if ( index == size ) 
 		{
 			this.Append(val) ; 
-			return ; 
+			return true ; 
 		}
 		findByIndex(head,index,0,val);
+		return true ;
 	};
 	
 	this.getSize = function () 
@@ -562,9 +566,12 @@ $(document).ready(function(){
 						inputNumber = parseInt(inputNumber,10) ; 
 						process = 'Append : ' ;
 						running = true ; 
-						linkedList.Append(inputNumber) ; 
-						undoList.push(['append',inputNumber]); 
-						redoList.clear() ; 
+						var result = linkedList.Append(inputNumber) ; 
+						if ( result == true ) 
+						{
+							undoList.push(['append',inputNumber]); 
+							redoList.clear() ; 
+						}
 					}
 					else 
 					{
@@ -610,9 +617,12 @@ $(document).ready(function(){
 						inputPosition = parseInt(inputPosition,10) ; 
 						process = 'Insert : ' ;
 						running = true ; 
-						linkedList.insert(inputNumber,inputPosition) ; 
-						undoList.push(['insert',inputNumber,inputPosition]) ; 
-						redoList.clear() ; 
+						var result = linkedList.insert(inputNumber,inputPosition) ; 
+						if ( result == true ) 
+						{
+							undoList.push(['insert',inputNumber,inputPosition]) ; 
+							redoList.clear() ; 
+						}
 					}					
 					else 
 					{

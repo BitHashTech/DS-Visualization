@@ -22,9 +22,12 @@ $(document).ready(function(){
 						inputNumber = parseInt(inputNumber,10) ; 
 						process = 'Push front : ' ; 
 						running = true ; 
-						queue.push_front(inputNumber);
-						undoList.push(['Push Front',inputNumber]) ; 
-						redoList.clear() ; 
+						var result = queue.push_front(inputNumber);
+						if ( result == true ) 
+						{
+							undoList.push(['Push Front',inputNumber]) ; 
+							redoList.clear() ; 
+						}
 					}
 					else 
 					{
@@ -46,9 +49,12 @@ $(document).ready(function(){
 						inputNumber = parseInt(inputNumber,10) ; 
 						process = 'Push back : '; 
 						running = true ; 
-						queue.push_back(inputNumber);
-						undoList.push(['Push Back',inputNumber]) ; 
-						redoList.clear() ; 
+						var result = queue.push_back(inputNumber);
+						if ( result == true ) 
+						{
+							undoList.push(['Push Back',inputNumber]) ; 
+							redoList.clear() ; 
+						}
 					}
 					else 
 					{

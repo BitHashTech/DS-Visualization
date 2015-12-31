@@ -1,5 +1,5 @@
 var running = false ;
-var maxNumberNodes = 100 ; 
+var maxNumberNodes = 7 ; 
 var process = '' ;
 function Queue()
 {
@@ -59,16 +59,17 @@ function Queue()
 	this.push_front = function ( val ) 
 	{
 		
-		if ( size > maxNumberNodes ) 
+		if ( size == maxNumberNodes ) 
 		{
-			alert('Max number of nodes is 100') ; 
-			return ; 
+			alert('Max number of nodes is ' + maxNumberNodes) ; 
+			running = false ; 
+			return false; 
 		}
 		val = val ; 
 		if ( size == 0 ) 
 		{
 			push_Head(val) ; 
-			return ; 
+			return true; 
 		}
 		var Line = document.createElement("canvas");
 		Line.className = "LINE";
@@ -126,7 +127,8 @@ function Queue()
 			}
 			, 1000
 		);
-		size++;	
+		size++;
+		return true ; 
 	}
 	this.front = function ()
 	{
@@ -384,9 +386,12 @@ $(document).ready(function(){
 						inputNumber = parseInt(inputNumber,10) ; 
 						process = "Push : ";
 						running = true ; 
-						queue.push_front(inputNumber);
-						undoList.push(['push',inputNumber]) ; 
-						redoList.clear() ; 
+						var result = queue.push_front(inputNumber);
+						if ( result == true ) 
+						{
+							undoList.push(['push',inputNumber]) ; 
+							redoList.clear() ; 
+						}
 					}
 					else 
 					{

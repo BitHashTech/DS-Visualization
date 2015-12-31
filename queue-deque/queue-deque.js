@@ -1,7 +1,7 @@
 var running = false ; 
 var process = '' ; 
 var maxVal = 1000000 ; // make difference between push back and front ( needed ) 
-var maxNumberNodes = 100 ; 
+var maxNumberNodes = 16 ; 
 function Queue()
 {
 	var head = null , tail = null ; 
@@ -19,10 +19,11 @@ function Queue()
 	}
 	this.push_back = function ( val ) 
 	{
-		if ( size > maxNumberNodes ) 
+		if ( size == maxNumberNodes ) 
 		{
-			alert('Max number of nodes is 100') ; 
-			return ; 
+			alert('Max number of nodes is ' + maxNumberNodes) ; 
+			running = false ; 
+			return false; 
 		}
 		var Line = document.createElement("canvas");  
 		Line.className = "LINE";
@@ -84,18 +85,20 @@ function Queue()
 			, 1000 
 		)
 		size++;
+		return true ; 
 	}
 	this.push_front = function ( val ) 
 	{
-		if ( size > maxNumberNodes ) 
+		if ( size == maxNumberNodes ) 
 		{
-			alert('Max number of nodes is 100') ; 
-			return ; 
+			alert('Max number of nodes is ' + maxNumberNodes) ; 
+			running = false ; 
+			return false; 
 		}
 		if ( size == 0 ) 
 		{
 			this.push_back(val + maxVal ) ; 
-			return ; 
+			return true ; 
 		}
 		var Line = document.createElement("canvas");
 		Line.className = "LINE";
@@ -154,6 +157,7 @@ function Queue()
 			, 1000
 		);
 		size++;	
+		return true ; 
 	}
 	this.front = function ()
 	{
