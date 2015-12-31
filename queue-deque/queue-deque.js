@@ -75,9 +75,9 @@ function Queue()
 			function()
 			{
 				if ( parseInt(val) >= parseInt(maxVal) ) 
-					updateActionBox(process + (val - maxVal) + ' is pushed front') ; 
+					updateInfoBox(process + (val - maxVal) + ' is pushed front') ; 
 				else 
-					updateActionBox(process + val + ' is pushed back') ; 	
+					updateInfoBox(process + val + ' is pushed back') ; 	
 				toggleClass(node);
 				running = false ; 
 			}
@@ -147,7 +147,7 @@ function Queue()
 		setTimeout(
 			function()
 			{
-				updateActionBox(process + val + ' is pushed front' ) ; 
+				updateInfoBox(process + val + ' is pushed front' ) ; 
 				toggleClass(node);
 				running = false ; 
 			}
@@ -164,7 +164,7 @@ function Queue()
 			setTimeout(
 				function()
 				{
-					updateActionBox(process + head.value + ' is front') ; 
+					updateInfoBox(process + head.value + ' is front') ; 
 					toggleClass(node) ;
 					running = false ; 
 				}
@@ -184,7 +184,7 @@ function Queue()
 			setTimeout(
 				function()
 				{
-					updateActionBox(process + tail.value + ' is back') ; 
+					updateInfoBox(process + tail.value + ' is back') ; 
 					toggleClass(node) ;
 					running = false ; 
 				}
@@ -269,7 +269,7 @@ function Queue()
 			(
 				function()
 				{	
-					updateActionBox(process + 'Pop front is done') ; 
+					updateInfoBox(process + 'Pop front is done') ; 
 					document.getElementById("Nodes").removeChild(node) ;
 					running = false ; 
 				}
@@ -324,7 +324,7 @@ function Queue()
 		(
 			function()
 			{	
-				updateActionBox(process + 'Pop back is done') ; 
+				updateInfoBox(process + 'Pop back is done') ; 
 				document.getElementById("Nodes").removeChild(node) ; 
 				running = false ; 
 			}
@@ -380,9 +380,9 @@ deleteCanvas = function( canvasId )
 	)
 }
 
-function updateActionBox ( update ) 
+function updateInfoBox ( update ) 
 {
-	$('#action').text(update) ; 
+	$('#info').text(update) ; 
 }
 
 function undo()
@@ -396,13 +396,13 @@ function undo()
 	if ( order[0] == 'front' ) 
 	{
 		process = 'Undo front : Done' ; 
-		updateActionBox(process) ; 
+		updateInfoBox(process) ; 
 		running = false ;
 	}
 	else if ( order[0] == 'back' ) 
 	{
 		process = 'Undo back : Done' ; 
-		updateActionBox(process) ; 
+		updateInfoBox(process) ; 
 		running = false ; 
 	}
 	else if ( order[0] == 'Push Back' ) 

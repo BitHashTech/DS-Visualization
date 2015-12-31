@@ -47,7 +47,7 @@ function Queue()
 		setTimeout(
 			function()
 			{
-				updateActionBox(process + val + ' is pushed') ; 	
+				updateInfoBox(process + val + ' is pushed') ; 	
 				toggleClass(node);
 				running = false ; 
 			}
@@ -120,7 +120,7 @@ function Queue()
 		setTimeout(
 			function()
 			{
-				updateActionBox ( process + val + ' is pushed' ) ;
+				updateInfoBox ( process + val + ' is pushed' ) ;
 				toggleClass(node);
 				running = false ; 
 			}
@@ -137,7 +137,7 @@ function Queue()
 			setTimeout(
 				function()
 				{
-					updateActionBox ( process + head.value + ' is top' ) ;
+					updateInfoBox ( process + head.value + ' is top' ) ;
 					toggleClass(node) ;
 					running = false ; 
 				}
@@ -230,7 +230,7 @@ function Queue()
 			(
 				function()
 				{	
-					updateActionBox ( process + 'Pop is done'  ) ;
+					updateInfoBox ( process + 'Pop is done'  ) ;
 					document.getElementById("Nodes").removeChild(node) ; 
 					running = false ; 
 				}
@@ -254,9 +254,9 @@ function Queue()
 	}
 }
 
-function updateActionBox ( update ) 
+function updateInfoBox ( update ) 
 {
-	$('#action').text(update) ; 
+	$('#info').text(update) ; 
 }
 
 toggleClass = function(node) // change the style of canvas 
@@ -307,7 +307,7 @@ function undo()
 	if ( order[0] == 'top' ) 
 	{
 		process = "Undo top : Done" ; 
-		updateActionBox(process) ; 
+		updateInfoBox(process) ; 
 		running = false ; 
 	}
 	else if ( order[0] == 'push' ) 
@@ -364,9 +364,10 @@ var redoList = new Stack() ;
 
 $(document).ready(function(){
 	
-		$('#actionBar').dialog({
+		$('#infoBar').dialog({
 			width:'15%',
 			maxHeight: 170,
+			position: {my: 'right top', at: 'right top', of: window}
 		}) ; 
 	    $('#sideList').draggable(); // make the list movable 
 		
@@ -468,8 +469,8 @@ $(document).ready(function(){
 			});
 		});
 		$(function(){
-			$('#showActionBarButton').click(function(event){
-				$('#actionBar').dialog({
+			$('#showInfoBarButton').click(function(event){
+				$('#infoBar').dialog({
 					width:'15%',
 					maxHeight: 170,
 				}) ; 

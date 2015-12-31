@@ -5,9 +5,10 @@ $(document).ready(function(){
 		
 		$('#sideList-queue').accordion({collapsible: true , heightStyle: "content"});
 		
-		$('#actionBar').dialog({
+		$('#infoBar').dialog({
 			width:'15%',
 			maxHeight: 170,
+			position: {my: 'right top', at: 'right top', of: window}
 		}) ; 
 		$(function(){
 			$('#push').submit(function(event) {
@@ -124,8 +125,8 @@ $(document).ready(function(){
 		});
 		
 		$(function(){
-			$('#showActionBarButton').click(function(event){
-				$('#actionBar').dialog({
+			$('#showInfoBarButton').click(function(event){
+				$('#infoBar').dialog({
 					width:'15%',
 					maxHeight: 170,
 				}) ; 

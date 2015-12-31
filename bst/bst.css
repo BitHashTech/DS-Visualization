@@ -1,9 +1,11 @@
 html {
 	background-color: #38D18F;
 }
-
 #sideList {
 	width: 450px ; 
+}
+#infoBar{
+	position:relative;
 }
 .Circle2 {
 	position:absolute;

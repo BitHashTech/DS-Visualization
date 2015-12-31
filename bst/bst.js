@@ -1,5 +1,5 @@
 var running = false ; // to disallow parallel operations
-var process = '' ; //current process (to cout in Action box)
+var process = '' ; //current process (to cout in Info box)
 function binarySearchTree () {
 	var counter = 0 ; // for id of circle and line , to be used in drawing
 	var root = null; 
@@ -317,7 +317,7 @@ function binarySearchTree () {
 		}
 		else 
 		{
-			updateActionBox(process + value + ' is not found' ) ; 
+			updateInfoBox(process + value + ' is not found' ) ; 
 			running=false;
 		}
 	}
@@ -333,14 +333,14 @@ function binarySearchTree () {
 			if ( currentState[0] == 'noChilds' ) 
 			{
 				var temp = currentState[1] ; 
-				updateActionBox ( process + temp.value) ; 
+				updateInfoBox ( process + temp.value) ; 
 				toggleClass(document.getElementById(temp.nodeId));
 				$( "#"+temp.nodeId ).hide( 1500);
 				$( "#"+temp.lineId ).hide(1500);				
 				setTimeout(
 					function()
 					{
-						updateActionBox( process + 'deleting ' + temp.value + ' is done' ) ; 
+						updateInfoBox( process + 'deleting ' + temp.value + ' is done' ) ; 
 						document.getElementById("Nodes").removeChild(document.getElementById(temp.nodeId)) ;
 						document.getElementById("Nodes").removeChild(document.getElementById(temp.lineId)) ;
 						running = false ; 
@@ -353,7 +353,7 @@ function binarySearchTree () {
 			{
 				var temp = currentState[1] ; 
 				toggleClass(document.getElementById(temp.nodeId)) ; 
-				updateActionBox ( process + temp.value) ; 
+				updateInfoBox ( process + temp.value) ; 
 				$( "#"+temp.nodeId ).hide( 1250);
 				var tempLineToBeDeleted = temp.left.lineId ; 
 				$( "#"+tempLineToBeDeleted).hide(1250);
@@ -361,7 +361,7 @@ function binarySearchTree () {
 				setTimeout(
 					function()
 					{
-						updateActionBox( process + 'deleting ' + temp.value + ' is done' ) ; 
+						updateInfoBox( process + 'deleting ' + temp.value + ' is done' ) ; 
 						document.getElementById("Nodes").removeChild(document.getElementById(temp.nodeId)) ;
 						document.getElementById("Nodes").removeChild(document.getElementById(tempLineToBeDeleted)) ;
 						transferNodes(temp.left,temp.topPos,temp.leftPos,temp.lineLeft-2);
@@ -374,7 +374,7 @@ function binarySearchTree () {
 			{
 				var temp = currentState[1] ; 
 				toggleClass(document.getElementById(temp.nodeId)) ; 
-				updateActionBox ( process + temp.value) ; 
+				updateInfoBox ( process + temp.value) ; 
 				$( "#"+temp.nodeId ).hide( 1250);
 				var tempLineToBeDeleted = temp.right.lineId ; 
 				$( "#"+tempLineToBeDeleted ).hide(1250);	
@@ -382,7 +382,7 @@ function binarySearchTree () {
 				setTimeout(
 					function()
 					{
-						updateActionBox( process + 'deleting ' + temp.value + ' is done' ) ; 
+						updateInfoBox( process + 'deleting ' + temp.value + ' is done' ) ; 
 						document.getElementById("Nodes").removeChild(document.getElementById(temp.nodeId)) ;
 						document.getElementById("Nodes").removeChild(document.getElementById(tempLineToBeDeleted)) ;
 						transferNodes(temp.right,temp.topPos,temp.leftPos,temp.lineLeft-2);
@@ -395,7 +395,7 @@ function binarySearchTree () {
 			{
 				var temp = currentState[1] ; 
 				toggleClass(document.getElementById(temp.nodeId)) ; 
-				updateActionBox(process + 'finding smallest number bigger than ' + currentState[1].value) ; 
+				updateInfoBox(process + 'finding smallest number bigger than ' + currentState[1].value) ; 
 				colorQueue.pop() ; 
 				setTimeout( function() 
 					{
@@ -410,7 +410,7 @@ function binarySearchTree () {
 			{
 				var temp = currentState[1] ; 
 				var temp2 = currentState[2] ; 
-				updateActionBox( process + 'swapping values ' + temp.value + ' and ' + temp2.value )  ; 
+				updateInfoBox( process + 'swapping values ' + temp.value + ' and ' + temp2.value )  ; 
 				var leastOnRight = temp2.value ; 
 				var tempNode = document.getElementById(temp.nodeId) ;
 				var temp2Node = document.getElementById(temp2.nodeId) ;	
@@ -440,7 +440,7 @@ function binarySearchTree () {
 			else if ( currentState[0] == 'deleteLowest' )
 			{
 				var temp = currentState[1] ; 
-				updateActionBox(process + 'deleting ' + temp.value) ; 
+				updateInfoBox(process + 'deleting ' + temp.value) ; 
 				deleteAt(currentState[2].value , temp.value ) ; 
 			}
 		}
@@ -462,7 +462,7 @@ function binarySearchTree () {
 			setTimeout(
 				function()
 				{
-					updateActionBox( process + current.value + ' is inserted' ) ; 
+					updateInfoBox( process + current.value + ' is inserted' ) ; 
 					toggleClass(Node);
 					running = false ; 
 				}	
@@ -472,22 +472,22 @@ function binarySearchTree () {
 		}
 		else if ( colorQueue.getSz() == 1 && order == 'nFound' ) 
 		{
-			updateActionBox( process + colorQueue.front() + ' is not found') ; 
+			updateInfoBox( process + colorQueue.front() + ' is not found') ; 
 			running = false ; 
 			return ;  
 		}
 		else if ( colorQueue.getSz() == 1 && order == 'traverse' ) 
 		{
 			running = false ; 
-			updateActionBox( colorQueue.front() ) ;
+			updateInfoBox( colorQueue.front() ) ;
 			return ; 
 		}
 		var current = document.getElementById(colorQueue.front().nodeId) ; 
 		toggleClass(current) ;
-		updateActionBox( process + colorQueue.front().value) ; 
+		updateInfoBox( process + colorQueue.front().value) ; 
 		if ( colorQueue.getSz() == 1 && order == 'found' ) 
 		{
-			updateActionBox( process + colorQueue.front().value + ' is found' ) ; 
+			updateInfoBox( process + colorQueue.front().value + ' is found' ) ; 
 		}	
 		
 		setTimeout( function() {
@@ -504,7 +504,6 @@ function binarySearchTree () {
 	}
 }
 
-var actionResult = [] ; // to save user history
 var traverseOrder = [] ; // to save numbers of BST to be traversed 
 
 toggleClass = function(node) // change the style of canvas 
@@ -553,9 +552,9 @@ drawCircle = function( canvasId ) {
 	}
 }
 var colorQueue = new Queue() ; 
-function updateActionBox ( update ) 
+function updateInfoBox ( update ) 
 {
-	$('#action').text(update) ; 
+	$('#info').text(update) ; 
 }
 
 var undoList = new Stack() ; 
@@ -585,22 +584,22 @@ function undo()
 		if ( order[0] == 'find' ) 
 		{
 			process = 'Undo ' + order[0] + ' ' + order[1] + ' : done'  ; 
-			updateActionBox(process) ; 
+			updateInfoBox(process) ; 
 		}
 		else if ( order[0] == 'inOrder' ) 
 		{
 			process = 'Undo traverse in order : done'  ; 
-			updateActionBox(process) ; 
+			updateInfoBox(process) ; 
 		}
 		else if ( order[0] == 'preOrder') 
 		{
 			process = 'Undo traverse pre order : done'  ; 
-			updateActionBox(process) ; 
+			updateInfoBox(process) ; 
 		}
 		else if ( order[0] == 'postOrder') 
 		{
 			process = 'Undo traverse post order : done'  ; 
-			updateActionBox(process) ; 
+			updateInfoBox(process) ; 
 		}
 		running = false ; 
 	}
@@ -661,10 +660,11 @@ var bst= new binarySearchTree();
 $(document).ready(function(){
 	    $('#sideList').draggable(); // make operations list movable 
 		$('#sideList').accordion({collapsible: true , heightStyle: 'content' , widthStyle: 'content' }); // set opration list style
-		$('#actionBar').dialog({
+		$('#infoBar').dialog({
 			width:'15%',
 			maxHeight: 170,
-		}) ; 
+			position: {my: 'right top', at: 'right top', of: window}
+		});
 		$(function(){
 			$('#insert').submit(function(event){
 				var inputNumber = $("#insert").find('input[name="value"]').val() ; // get value to be inserted from text box when button clicked
@@ -816,8 +816,8 @@ $(document).ready(function(){
 			});
 		});
 		$(function(){
-			$('#showActionBarButton').click(function(event){
-				$('#actionBar').dialog({
+			$('#showInfoBarButton').click(function(event){
+				$('#infoBar').dialog({
 					width:'15%',
 					maxHeight: 170,
 				}) ; 

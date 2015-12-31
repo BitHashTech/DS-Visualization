@@ -69,7 +69,7 @@ var LinkedList=function()
 		setTimeout(
 			function()
 			{
-				updateActionBox( process + val + ' is appended' ) ;
+				updateInfoBox( process + val + ' is appended' ) ;
 				toggleClass(node);
 				running = false ; 
 			}
@@ -100,7 +100,7 @@ var LinkedList=function()
 	{
 		if ( current == null ) 
 		{
-			updateActionBox( process + val + ' is not found' ) ;
+			updateInfoBox( process + val + ' is not found' ) ;
 			running = false ; 
 			return ; 
 		}
@@ -111,7 +111,7 @@ var LinkedList=function()
 			setTimeout(
 				function() 
 				{
-					updateActionBox( process + val + ' is found in index ' + idx ) ;
+					updateInfoBox( process + val + ' is found in index ' + idx ) ;
 					toggleClass(node);
 				}
 				,1000) ;  
@@ -203,7 +203,7 @@ var LinkedList=function()
 		setTimeout(
 			function()
 			{					
-				updateActionBox( process + val + ' is inserted in index ' + position ) ;
+				updateInfoBox( process + val + ' is inserted in index ' + position ) ;
 				toggleClass(node); 
 				running = false ; 
 			}
@@ -234,7 +234,7 @@ var LinkedList=function()
 	{
 		if ( current == null || idx >= size || idx < 0 ) 
 		{				
-			updateActionBox( process + 'Out of limit' ) ;
+			updateInfoBox( process + 'Out of limit' ) ;
 			running = false ; 
 			return ; 
 		}
@@ -366,7 +366,7 @@ var LinkedList=function()
 			(
 				function()
 				{	
-					updateActionBox( process + 'Deleting from index ' + idx + ' is done' ) ;
+					updateInfoBox( process + 'Deleting from index ' + idx + ' is done' ) ;
 					document.getElementById("Nodes").removeChild(document.getElementById(nodeID)) ;
 					running = false ; 
 				}
@@ -447,9 +447,9 @@ deleteCanvas = function( canvasId )
  		},700
 	)
 }
-function updateActionBox ( update ) 
+function updateInfoBox ( update ) 
 {
-	$('#action').text(update) ; 
+	$('#info').text(update) ; 
 }
 
 var linkedList = new LinkedList();
@@ -467,7 +467,7 @@ function undo()
 	if ( order[0] == 'find' ) 
 	{
 		process = 'Undo find : Done' ;
-		updateActionBox(process) ; 
+		updateInfoBox(process) ; 
 		running = false ; 
 	}
 	else if ( order[0] == 'insert' ) 
@@ -547,9 +547,10 @@ $(document).ready(function(){
 		
 		$('#sideList').accordion({collapsible: true , heightStyle: "content"});
 		
-		$('#actionBar').dialog({
+		$('#infoBar').dialog({
 			width:'15%',
 			maxHeight: 170,
+			position: {my: 'right top', at: 'right top', of: window}
 		}) ; 
 		$(function(){
 			$('#append').submit(function(event) {				
@@ -635,7 +636,7 @@ $(document).ready(function(){
 						var valueInPosition = linkedList.findValInPosition(inputPosition); 
 						if ( valueInPosition == null )
 						{
-							updateActionBox( process + 'Out of limit') ; 
+							updateInfoBox( process + 'Out of limit') ; 
 						}
 						else 
 						{
@@ -684,8 +685,8 @@ $(document).ready(function(){
 			});
 		});
 		$(function(){
-			$('#showActionBarButton').click(function(event){
-				$('#actionBar').dialog({
+			$('#showInfoBarButton').click(function(event){
+				$('#infoBar').dialog({
 					width:'15%',
 					maxHeight: 170,
 				}) ; 
