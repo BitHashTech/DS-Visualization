@@ -73,7 +73,7 @@ var LinkedList=function()
 				toggleClass(node);
 				running = false ; 
 			}
-			, 1500 
+			, 1000 
 		)
 		size++;
 	};
