@@ -425,7 +425,7 @@ function binarySearchTree () {
 				toggleClass(temp2Node) ;
 				var ctx2 = temp2Node.getContext("2d");
 				ctx2.clearRect(0,0,temp2Node.width,temp2Node.height) ; 
-				ctx2.fillStyle = "#B22222";
+				ctx2.fillStyle = "#660066";
 				ctx2.font = "bold 70px Arial";	
 				ctx2.fillText(temp.value,130,90);
 				colorQueue.pop() ; 
