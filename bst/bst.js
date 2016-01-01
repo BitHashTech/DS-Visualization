@@ -103,8 +103,8 @@ function binarySearchTree () {
 		Node.className = 'Circle' ;  // pass style of circle to canvas
 		var ctx = Node.getContext("2d");  
 		Node.id = temp.nodeId ; 
-		ctx.fillStyle = "#660066"; // text color
-		ctx.font = "bold 70px Arial"; // text font
+		ctx.fillStyle = "#8B4513"; // text color
+		ctx.font = "bold 65px Arial"; // text font
 		ctx.fillText(value,130,90); // text place inside circle (in the center) and writing it 
 		Node.style.top = temp.topPos + '%'; 
 		Node.style.left = temp.leftPos +'%';
@@ -418,15 +418,15 @@ function binarySearchTree () {
 				var temp2Node = document.getElementById(temp2.nodeId) ;	
 				var ctx = tempNode.getContext("2d");
 				ctx.clearRect(0,0,tempNode.width,tempNode.height) ; 
-				ctx.fillStyle = "#660066";
-				ctx.font = "bold 70px Arial";	
+				ctx.fillStyle = "#8B4513";
+				ctx.font = "bold 65px Arial";	
 				ctx.fillText(temp2.value,130,90);
 				toggleClass(tempNode) ; 
 				toggleClass(temp2Node) ;
 				var ctx2 = temp2Node.getContext("2d");
 				ctx2.clearRect(0,0,temp2Node.width,temp2Node.height) ; 
-				ctx2.fillStyle = "#660066";
-				ctx2.font = "bold 70px Arial";	
+				ctx2.fillStyle = "#8B4513";
+				ctx2.font = "bold 65px Arial";	
 				ctx2.fillText(temp.value,130,90);
 				colorQueue.pop() ; 
 				setTimeout( function() 

@@ -51,8 +51,8 @@ function Queue()
 		var node = document.createElement("canvas") ;
 		node.className = "Circle" ; 
 		var ctx = node.getContext("2d");
-		ctx.fillStyle = "#660066";
-		ctx.font = "bold 70px Arial";
+		ctx.fillStyle = "#8B4513";
+		ctx.font = "bold 65px Arial";
 		if ( val >= maxVal ) 
 			ctx.fillText(val-maxVal,130,90);
 		else 
@@ -125,8 +125,8 @@ function Queue()
 		var node = document.createElement("canvas") ;
 		node.className = "Circle";
 		var ctx = node.getContext("2d");
-		ctx.fillStyle = "#660066";
-		ctx.font = "bold 70px Arial";
+		ctx.fillStyle = "#8B4513";
+		ctx.font = "bold 65px Arial";
 		ctx.fillText(val,130,90);
 		node.id = head.nodeId ; 
 		setTimeout(
