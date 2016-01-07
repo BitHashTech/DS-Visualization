@@ -10,8 +10,8 @@ html {
 	background-color: #FF6347;
 	border-radius:100%;
 	text-align: center;
-	height:50px;
-	width:50px;
+	height:40px;
+	width:40px;
 }
 .Circle {
 	display: block ; 
@@ -19,15 +19,15 @@ html {
 	background-color: #FFFF99;
 	border-radius:100%;
 	text-align: center;
-	height:50px;
-	width:50px;
+	height:40px;
+	width:40px;
 }
 .LINE 
 {
 	display:block;
 	position :relative;
-	width :50px;
-	height :25px;
+	width :40px;
+	height :15px;
 }
 .Contain
 {

@@ -1,5 +1,5 @@
 var running = false ;
-var maxNumberNodes = 7 ; 
+var maxNumberNodes = 10 ; 
 var process = '' ;
 function Queue()
 {
@@ -90,7 +90,7 @@ function Queue()
 		Line.id = queueNode.lineId ; 	
 		var divI = document.getElementById("Nodes") ; 
 		divI.insertBefore(Line,document.getElementById(queueNode.next.lineId)) ; 
-		document.getElementById(queueNode.lineId).style.height = '25px';
+		document.getElementById(queueNode.lineId).style.height = '15px';
 		document.getElementById(head.next.lineId).style.height = '0px';
 		drawLine(Line.id);
 		var node = document.createElement("canvas") ;
@@ -273,7 +273,7 @@ drawLine = function( canvasId )
 {
 	$('#'+canvasId).animate(
 		{
-			height : '25px' 
+			height : '15px' 
 		},500
 	)
 }
@@ -283,7 +283,7 @@ drawCircle = function( canvasId )
 {
 	$('#'+canvasId).animate(
 		{
-			height : '50px' 
+			height : '40px' 
 		},600
 	)
 	document.getElementById(canvasId).style.border = '2px solid black' ; 
